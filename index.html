@@ -49,7 +49,7 @@
         ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #404040; }
 
-        /* Scroll reveal animations */
+        /* Scroll reveal animations (For sections below fold) */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -59,6 +59,19 @@
             opacity: 1;
             transform: translateY(0);
         }
+
+        /* Initial Load Animation (For Hero Section) */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-on-load {
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0; /* Starts hidden, animation makes it visible */
+        }
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
 
         /* Mouse Tracking Glow Effect on Cards */
         .glow-card {
@@ -103,7 +116,7 @@
         }
 
         .card-content {
-            background-color: #111111; /* fallback */
+            background-color: #111111; 
             background-color: rgba(17, 17, 17, 0.95);
             border-radius: inherit;
             position: relative;
@@ -139,43 +152,56 @@
         </a>
     </div>
 
-    <!-- Floating Navigation -->
-    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[90%] md:w-auto">
-        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-6 py-3 flex justify-between items-center shadow-2xl">
-            <a href="#" class="md:hidden text-lg font-bold tracking-tight text-white hover:text-brand-400 transition-colors mr-4">
+    <!-- Floating Navigation (Fixed for Mobile) -->
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[92%] md:w-auto">
+        <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-4 md:px-6 py-3 flex justify-between items-center shadow-2xl overflow-x-auto no-scrollbar">
+            <a href="#" class="md:hidden text-lg font-bold tracking-tight text-white hover:text-brand-400 transition-colors mr-4 shrink-0">
                 PK<span class="text-brand-400">.</span>
             </a>
-            <div class="flex items-center space-x-6 md:space-x-8 text-sm font-medium mx-auto">
-                <a href="#about" class="text-slate-300 hover:text-brand-400 transition-colors"><span class="font-mono text-brand-400 text-xs mr-1">01.</span><span class="hidden md:inline">About</span></a>
-                <a href="#experience" class="text-slate-300 hover:text-brand-400 transition-colors"><span class="font-mono text-brand-400 text-xs mr-1">02.</span><span class="hidden md:inline">Experience</span></a>
-                <a href="#projects" class="text-slate-300 hover:text-brand-400 transition-colors"><span class="font-mono text-brand-400 text-xs mr-1">03.</span><span class="hidden md:inline">Work</span></a>
-                <a href="#contact" class="text-slate-300 hover:text-brand-400 transition-colors"><span class="font-mono text-brand-400 text-xs mr-1">04.</span><span class="hidden md:inline">Contact</span></a>
+            <div class="flex items-center space-x-4 md:space-x-8 text-sm font-medium mx-auto shrink-0">
+                <a href="#about" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                    <i class="ph ph-user md:hidden text-lg mb-1"></i>
+                    <span class="font-mono text-brand-400 text-[10px] md:text-xs mr-1 hidden md:inline">01.</span>
+                    <span class="text-[10px] md:text-sm">About</span>
+                </a>
+                <a href="#experience" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                    <i class="ph ph-briefcase md:hidden text-lg mb-1"></i>
+                    <span class="font-mono text-brand-400 text-[10px] md:text-xs mr-1 hidden md:inline">02.</span>
+                    <span class="text-[10px] md:text-sm">Exp</span>
+                </a>
+                <a href="#projects" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                    <i class="ph ph-code md:hidden text-lg mb-1"></i>
+                    <span class="font-mono text-brand-400 text-[10px] md:text-xs mr-1 hidden md:inline">03.</span>
+                    <span class="text-[10px] md:text-sm">Work</span>
+                </a>
+                <a href="#contact" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                    <i class="ph ph-envelope-simple md:hidden text-lg mb-1"></i>
+                    <span class="font-mono text-brand-400 text-[10px] md:text-xs mr-1 hidden md:inline">04.</span>
+                    <span class="text-[10px] md:text-sm">Contact</span>
+                </a>
             </div>
-            <a href="https://github.com/monsterseason1" target="_blank" class="hidden md:flex items-center justify-center w-8 h-8 rounded-full bg-white/10 hover:bg-brand-500/20 text-white hover:text-brand-400 transition-colors ml-4">
-                <i class="ph ph-github-logo"></i>
-            </a>
         </div>
     </nav>
 
     <!-- Main Content -->
     <main class="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 lg:px-0">
         
-        <!-- Hero Section -->
-        <section class="min-h-screen flex flex-col justify-center pt-20 pb-12">
-            <div class="reveal">
-                <p class="font-mono text-brand-400 mb-5 ml-1">Hi, my name is</p>
-                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2">
+        <!-- Hero Section (Fixed: Changed from .reveal to .animate-on-load) -->
+        <section class="min-h-screen flex flex-col justify-center pt-24 pb-12">
+            <div>
+                <p class="font-mono text-brand-400 mb-5 ml-1 animate-on-load">Hi, my name is</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2 animate-on-load delay-100">
                     Phanuwat Khamkhan.
                 </h1>
-                <h2 class="text-4xl md:text-6xl font-bold text-slate-400 tracking-tight mb-8">
+                <h2 class="text-4xl md:text-6xl font-bold text-slate-400 tracking-tight mb-8 animate-on-load delay-200">
                     I build tools for the digital world.
                 </h2>
                 
-                <p class="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed">
+                <p class="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed animate-on-load delay-300">
                     I'm a Full Stack Developer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on creating <span class="text-brand-400">automation tools</span>, <span class="text-brand-400">browser extensions</span>, and <span class="text-brand-400">AI-powered systems</span>.
                 </p>
                 
-                <div class="flex flex-wrap items-center gap-4">
+                <div class="flex flex-wrap items-center gap-4 animate-on-load delay-300">
                     <a href="#projects" class="font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint transition-all">
                         Check out my work!
                     </a>
@@ -223,16 +249,16 @@
                         <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend & Tools</h3>
                         <ul class="space-y-2 font-mono text-sm text-slate-400">
                             <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Extensions</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> AI APIs Integration</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Git / GitHub</li>
+                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
+                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> AI APIs</li>
+                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Git & GitHub</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Experience Section (New) -->
+        <!-- Experience Section -->
         <section id="experience" class="py-24 border-t border-white/5 reveal">
             <div class="flex items-center gap-4 mb-12">
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
@@ -249,30 +275,30 @@
                     <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[6.5px] top-1.5 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
                     <h3 class="text-xl font-bold text-slate-200">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
                     <p class="font-mono text-sm text-slate-500 mb-4 mt-1">Present</p>
-                    <ul class="space-y-3 text-slate-400 list-none">
+                    <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
                         <li class="flex items-start">
-                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3"></i>
+                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
                             <span>Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3"></i>
+                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
                             <span>Communicate with clients to understand their workflow bottlenecks and deliver custom software solutions.</span>
                         </li>
                     </ul>
                 </div>
 
-                <!-- Job 2 (Placeholder - You can edit this) -->
+                <!-- Job 2 -->
                 <div class="relative pl-8">
                     <div class="absolute w-3 h-3 bg-slate-700 border-2 border-bg-dark rounded-full -left-[6.5px] top-1.5"></div>
                     <h3 class="text-xl font-bold text-slate-200">Software Developer <span class="text-brand-400">@ Previous Role</span></h3>
                     <p class="font-mono text-sm text-slate-500 mb-4 mt-1">2023 - 2024</p>
-                    <ul class="space-y-3 text-slate-400 list-none">
+                    <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
                         <li class="flex items-start">
-                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3"></i>
+                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
                             <span>Built full-stack applications using React and Firebase.</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3"></i>
+                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
                             <span>Collaborated with cross-functional teams to deliver projects on schedule.</span>
                         </li>
                     </ul>
@@ -294,19 +320,16 @@
                 
                 <!-- Project 1 (Glow Card) -->
                 <div class="glow-card rounded-xl">
-                    <div class="card-content p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
+                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
                         <div class="w-full flex justify-between items-center mb-6">
                             <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
                             <div class="flex gap-4">
                                 <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="text-slate-400 hover:text-brand-400 transition-colors">
                                     <i class="ph ph-github-logo text-2xl"></i>
                                 </a>
-                                <a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">
-                                    <i class="ph ph-arrow-square-out text-2xl"></i>
-                                </a>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Rubber Tapper Log</h3>
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Rubber Tapper Log</h3>
                         <p class="text-slate-400 text-sm mb-6 flex-grow">
                             A digital logging tool designed specifically for rubber plantation workers. It streamlines the tracking of daily production, replacing traditional paper logs with an accurate digital system.
                         </p>
@@ -320,34 +343,13 @@
 
                 <!-- Project 2 (Glow Card) -->
                 <div class="glow-card rounded-xl">
-                    <div class="card-content p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
+                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
                         <div class="w-full flex justify-between items-center mb-6">
                             <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
                             <div class="flex gap-4">
                                 <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="text-slate-400 hover:text-brand-400 transition-colors">
                                     <i class="ph ph-github-logo text-2xl"></i>
                                 </a>
-                                <a href="#" class="text-slate-400 hover:text-brand-400 transition-colors">
-                                    <i class="ph ph-arrow-square-out text-2xl"></i>
-                                </a>
                             </div>
                         </div>
-                        <h3 class="text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Cinematic Pulse Viewer</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">
-                            A highly visual rhythm tool tailored for cinematic video editing workflows. It helps video creators and editors seamlessly synchronize visual cuts with audio beats and pulses.
-                        </p>
-                        <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                            <li>React</li>
-                            <li>Web Audio API</li>
-                            <li>CSS Grid</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Add more project cards here if needed -->
-
-            </div>
-        </section>
-
-        <!-- Contact Section -->
-        <section id="contact" class="py-32 mb-12 border-t 
+                        <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-
