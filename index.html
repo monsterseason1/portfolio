@@ -49,41 +49,45 @@
         ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #404040; }
 
-        /* Safe Animations - Guaranteed to show content */
+        /* Safe Animations */
         @keyframes safeFadeUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .animate-hero-1 { animation: safeFadeUp 0.8s ease-out both; }
-        .animate-hero-2 { animation: safeFadeUp 0.8s ease-out 0.2s both; }
-        .animate-hero-3 { animation: safeFadeUp 0.8s ease-out 0.4s both; }
-        .animate-hero-4 { animation: safeFadeUp 0.8s ease-out 0.6s both; }
+        .animate-hero-1 { animation: safeFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
+        .animate-hero-2 { animation: safeFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both; }
+        .animate-hero-3 { animation: safeFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s both; }
+        .animate-hero-4 { animation: safeFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.45s both; }
 
-        /* Smooth reveal for scrolling */
         .safe-reveal {
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .safe-reveal.is-hidden {
             opacity: 0;
-            transform: translateY(30px);
+            transform: translateY(40px);
         }
 
-        /* Mouse Tracking Glow Effect */
-        .glow-card { position: relative; }
+        /* 2030 3D Tilt Cards & Glow */
+        .glow-card { 
+            position: relative; 
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease;
+            will-change: transform;
+        }
         .glow-card::before {
-            content: "";
-            position: absolute; inset: 0; border-radius: inherit;
-            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.06), transparent 40%);
+            content: ""; position: absolute; inset: 0; border-radius: inherit;
+            background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.08), transparent 40%);
             opacity: 0; transition: opacity 0.5s; pointer-events: none; z-index: 1;
+            transform: translateZ(-1px);
         }
         .glow-card:hover::before { opacity: 1; }
         
         .glow-card::after {
-            content: "";
-            position: absolute; inset: -1px; border-radius: inherit;
-            background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.4), transparent 40%);
+            content: ""; position: absolute; inset: -1px; border-radius: inherit;
+            background: radial-gradient(400px circle at var(--mouse-x) var(--mouse-y), rgba(56, 189, 248, 0.5), transparent 40%);
             opacity: 0; transition: opacity 0.5s; z-index: -1;
+            transform: translateZ(-2px);
         }
         .glow-card:hover::after { opacity: 1; }
 
@@ -91,39 +95,76 @@
             background-color: #111111; 
             background-color: rgba(17, 17, 17, 0.95);
             border-radius: inherit; position: relative; z-index: 2; height: 100%;
+            transform: translateZ(20px); /* Parallax pop out */
+            transition: transform 0.3s ease;
+        }
+
+        /* 2030 Magnetic Items */
+        .magnetic {
+            display: inline-block;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: transform;
+        }
+
+        /* 2030 Cyberpunk Sweep Button */
+        .btn-cyber {
+            position: relative; overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-cyber::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.4), transparent);
+            transform: skewX(-20deg); transition: left 0.5s ease; z-index: -1;
+        }
+        .btn-cyber:hover::before { left: 150%; }
+
+        /* Custom Cursor */
+        @media (min-width: 768px) {
+            body, a, button, .magnetic { cursor: none; }
+            .cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background-color: #38bdf8; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 10px #38bdf8; }
+            .cursor-outline { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; }
+            .cursor-hover .cursor-dot { width: 0; height: 0; opacity: 0; }
+            .cursor-hover .cursor-outline { width: 50px; height: 50px; background-color: rgba(56, 189, 248, 0.1); border-color: transparent; backdrop-filter: blur(2px); }
         }
     </style>
 </head>
 
-<!-- Safe Mode: Removed overflow-x-hidden from body which sometimes breaks mobile rendering -->
 <body class="bg-bg-dark text-slate-300 font-sans antialiased selection:bg-brand-500/30 selection:text-brand-400 relative w-full overflow-x-hidden">
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor-dot hidden md:block"></div>
+    <div class="cursor-outline hidden md:block"></div>
+
+    <!-- 2030 Dynamic Ambient Orbs -->
+    <div id="orb-1" class="fixed top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-brand-500/10 blur-[100px] pointer-events-none z-0 transition-transform duration-[3000ms] ease-out"></div>
+    <div id="orb-2" class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none z-0 transition-transform duration-[4000ms] ease-out"></div>
 
     <!-- Dot Background -->
     <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.3] bg-dot-pattern" style="background-size: 24px 24px;"></div>
 
-    <!-- Floating Navigation (Visible labels on mobile) -->
-    <nav class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-[95%] md:w-auto">
+    <!-- Floating Navigation -->
+    <nav class="fixed top-4 md:top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] md:w-auto">
         <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-full px-4 md:px-6 py-3 flex justify-between items-center shadow-2xl overflow-x-auto no-scrollbar">
-            <a href="#" class="md:hidden text-lg font-bold tracking-tight text-white hover:text-brand-400 transition-colors mr-4 shrink-0">
+            <a href="#" class="md:hidden text-lg font-bold tracking-tight text-white mr-4 shrink-0">
                 PK<span class="text-brand-400">.</span>
             </a>
-            <div class="flex items-center space-x-5 md:space-x-8 text-sm font-medium mx-auto shrink-0">
-                <a href="#about" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+            <div class="flex items-center space-x-2 md:space-x-4 text-sm font-medium mx-auto shrink-0">
+                <a href="#about" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-user md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">01.</span>
                     <span class="text-[11px] md:text-sm">About</span>
                 </a>
-                <a href="#experience" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                <a href="#experience" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-briefcase md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">02.</span>
                     <span class="text-[11px] md:text-sm">Exp</span>
                 </a>
-                <a href="#projects" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                <a href="#projects" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-code md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">03.</span>
                     <span class="text-[11px] md:text-sm">Work</span>
                 </a>
-                <a href="#contact" class="flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400 transition-colors">
+                <a href="#contact" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-envelope-simple md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">04.</span>
                     <span class="text-[11px] md:text-sm">Contact</span>
@@ -132,14 +173,14 @@
         </div>
     </nav>
 
-    <!-- Main Content Container -->
+    <!-- Main Content -->
     <main class="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 lg:px-0">
         
         <!-- Hero Section -->
         <section class="min-h-[90vh] flex flex-col justify-center pt-28 pb-12">
             <div>
                 <p class="font-mono text-brand-400 mb-5 ml-1 animate-hero-1">Hi, my name is</p>
-                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2 animate-hero-2">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2 animate-hero-2 hacker-text" data-value="Phanuwat Khamkhan.">
                     Phanuwat Khamkhan.
                 </h1>
                 <h2 class="text-4xl md:text-6xl font-bold text-slate-400 tracking-tight mb-8 animate-hero-3">
@@ -151,17 +192,17 @@
                 </p>
                 
                 <div class="flex flex-wrap items-center gap-4 animate-hero-4">
-                    <a href="#projects" class="font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint transition-all">
+                    <a href="#projects" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]">
                         Check out my work!
                     </a>
-                    <a href="https://github.com/monsterseason1" target="_blank" class="lg:hidden font-mono text-sm text-slate-300 flex items-center gap-2 px-4 py-4 hover:text-white transition-all">
+                    <a href="https://github.com/monsterseason1" target="_blank" class="magnetic lg:hidden font-mono text-sm text-slate-300 flex items-center gap-2 px-4 py-4 hover:text-white transition-all">
                         <i class="ph ph-github-logo text-xl"></i> GitHub
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- About & Tech Stack Section -->
+        <!-- About Section -->
         <section id="about" class="py-24 border-t border-white/5 safe-reveal">
             <div class="flex items-center gap-4 mb-12">
                 <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
@@ -175,9 +216,6 @@
                     <p class="text-slate-400 leading-relaxed mb-4">
                         Hello! My name is Phanuwat and I enjoy creating things that live on the internet. My interest in web development started when I realized I could build tools to automate repetitive tasks and make workflows more efficient.
                     </p>
-                    <p class="text-slate-400 leading-relaxed mb-4">
-                        Today, my main focus is building lightweight, efficient applications and browser extensions that help creators and digital businesses scale.
-                    </p>
                     <p class="text-slate-400 leading-relaxed">
                         Here are a few technologies I've been working with recently:
                     </p>
@@ -187,19 +225,17 @@
                     <div>
                         <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-browsers text-brand-400 mr-2"></i>Frontend</h3>
                         <ul class="space-y-2 font-mono text-sm text-slate-400">
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript (ES6+)</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> React.js</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> HTML5 / CSS3</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind CSS</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript (ES6+)</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> React.js</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind CSS</li>
                         </ul>
                     </div>
                     <div>
-                        <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend & Tools</h3>
+                        <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend</h3>
                         <ul class="space-y-2 font-mono text-sm text-slate-400">
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> AI APIs</li>
-                            <li class="flex items-center gap-2"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Git & GitHub</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
+                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> AI APIs</li>
                         </ul>
                     </div>
                 </div>
@@ -216,16 +252,18 @@
             </div>
 
             <div class="relative border-l border-slate-800 ml-3 md:ml-4 space-y-12 pb-4">
-                <div class="relative pl-8">
-                    <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[6.5px] top-1.5 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
-                    <h3 class="text-xl font-bold text-slate-200">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
-                    <p class="font-mono text-sm text-slate-500 mb-4 mt-1">Present</p>
-                    <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
-                        <li class="flex items-start">
-                            <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
-                            <span>Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.</span>
-                        </li>
-                    </ul>
+                <div class="relative pl-8 glow-card rounded-lg p-4 border border-transparent hover:border-white/5 transition-colors">
+                    <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[22px] md:-left-[24px] top-6 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
+                    <div class="card-content bg-transparent !transform-none !p-0">
+                        <h3 class="text-xl font-bold text-slate-200">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
+                        <p class="font-mono text-sm text-slate-500 mb-4 mt-1">Present</p>
+                        <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
+                            <li class="flex items-start">
+                                <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
+                                <span>Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.</span>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </section>
@@ -239,13 +277,13 @@
                 <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
                 <!-- Project 1 -->
-                <div class="glow-card rounded-xl">
-                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
+                <div class="glow-card rounded-xl h-[320px]">
+                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
                         <div class="w-full flex justify-between items-center mb-6">
                             <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                            <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="text-slate-400 hover:text-brand-400 transition-colors">
+                            <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
                                 <i class="ph ph-github-logo text-2xl"></i>
                             </a>
                         </div>
@@ -254,19 +292,19 @@
                             A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.
                         </p>
                         <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                            <li>JavaScript</li>
-                            <li>Firebase</li>
-                            <li>Tailwind</li>
+                            <li class="magnetic">JavaScript</li>
+                            <li class="magnetic">Firebase</li>
+                            <li class="magnetic">Tailwind</li>
                         </ul>
                     </div>
                 </div>
 
                 <!-- Project 2 -->
-                <div class="glow-card rounded-xl">
-                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30 transition-colors duration-300">
+                <div class="glow-card rounded-xl h-[320px]">
+                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
                         <div class="w-full flex justify-between items-center mb-6">
                             <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                            <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="text-slate-400 hover:text-brand-400 transition-colors">
+                            <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
                                 <i class="ph ph-github-logo text-2xl"></i>
                             </a>
                         </div>
@@ -275,9 +313,9 @@
                             A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.
                         </p>
                         <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                            <li>React</li>
-                            <li>Web Audio API</li>
-                            <li>CSS Grid</li>
+                            <li class="magnetic">React</li>
+                            <li class="magnetic">Web Audio</li>
+                            <li class="magnetic">CSS Grid</li>
                         </ul>
                     </div>
                 </div>
@@ -290,57 +328,4 @@
             <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h2>
             <p class="text-slate-400 max-w-lg mx-auto mb-12 text-sm md:text-base">
                 My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!
-            </p>
-            <a href="mailto:monsterseason1@gmail.com" class="inline-block font-mono text-sm border border-brand-400 text-brand-400 px-8 py-4 rounded hover:bg-brand-tint transition-all">
-                Say Hello
-            </a>
-        </section>
-
-    </main>
-
-    <footer class="py-6 text-center z-10 relative mt-auto pb-24 md:pb-6">
-        <a href="https://github.com/monsterseason1" target="_blank" class="font-mono text-xs text-slate-500 hover:text-brand-400 transition-colors flex flex-col items-center gap-1">
-            <span>Built by Phanuwat Khamkhan</span>
-        </a>
-    </footer>
-
-    <!-- Safe Script -->
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            // Progressive Enhancement: Hide elements only if JS is successfully loaded
-            const reveals = document.querySelectorAll('.safe-reveal');
-            reveals.forEach(el => el.classList.add('is-hidden'));
-
-            const observer = new IntersectionObserver((entries, obs) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.remove('is-hidden');
-                        obs.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-
-            reveals.forEach(el => observer.observe(el));
-
-            // Mouse Effect for Desktop Only
-            if (window.matchMedia("(min-width: 768px)").matches) {
-                const projectsSection = document.getElementById("projects");
-                if (projectsSection) {
-                    projectsSection.onmousemove = e => {
-                        for(const card of document.getElementsByClassName("glow-card")) {
-                            const rect = card.getBoundingClientRect(),
-                                  x = e.clientX - rect.left,
-                                  y = e.clientY - rect.top;
-                            card.style.setProperty("--mouse-x", `${x}px`);
-                            card.style.setProperty("--mouse-y", `${y}px`);
-                        }
-                    };
-                }
-            }
-        });
-    </script>
-</body>
-</html>
-
-
-    
+  
