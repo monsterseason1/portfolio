@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Kanit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
@@ -20,7 +20,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'Kanit', 'sans-serif'],
                         mono: ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
@@ -95,7 +95,7 @@
             background-color: #111111; 
             background-color: rgba(17, 17, 17, 0.95);
             border-radius: inherit; position: relative; z-index: 2; height: 100%;
-            transform: translateZ(20px); /* Parallax pop out */
+            transform: translateZ(20px);
             transition: transform 0.3s ease;
         }
 
@@ -118,11 +118,63 @@
         }
         .btn-cyber:hover::before { left: 150%; }
 
+        /* System Reboot Glitch Effect (For Language Switch) */
+        @keyframes systemReboot {
+            0% { filter: hue-rotate(0deg) contrast(1); transform: skewX(0deg); }
+            20% { filter: hue-rotate(90deg) contrast(2) invert(1); transform: skewX(-5deg); }
+            40% { filter: hue-rotate(-90deg) contrast(2) invert(0); transform: skewX(5deg); }
+            60% { filter: hue-rotate(45deg) contrast(1.5); transform: skewX(-2deg); }
+            80% { filter: hue-rotate(-45deg) contrast(1.2); transform: skewX(2deg); }
+            100% { filter: hue-rotate(0deg) contrast(1); transform: skewX(0deg); }
+        }
+        .rebooting {
+            animation: systemReboot 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+        }
+
+        /* HTML Fade Effect for complex elements */
+        .fade-transition {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.7);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .modal-backdrop.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-content {
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-backdrop.open .modal-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        body.modal-open { overflow: hidden; }
+
+        /* Timeline Styles */
+        .timeline-line {
+            position: absolute;
+            left: 24px;
+            top: 24px;
+            bottom: 24px;
+            width: 2px;
+            background: linear-gradient(to bottom, #38bdf8 0%, rgba(56, 189, 248, 0.1) 100%);
+            z-index: 0;
+        }
+
         /* Custom Cursor */
         @media (min-width: 768px) {
-            body, a, button, .magnetic { cursor: none; }
-            .cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background-color: #38bdf8; border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 10px #38bdf8; }
-            .cursor-outline { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; }
+            body, a, button, .magnetic, #langSwitcher { cursor: none; }
+            .cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background-color: #38bdf8; border-radius: 50%; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s; box-shadow: 0 0 10px #38bdf8; }
+            .cursor-outline { position: fixed; top: 0; left: 0; width: 36px; height: 36px; border: 1px solid rgba(56, 189, 248, 0.5); border-radius: 50%; pointer-events: none; z-index: 99998; transform: translate(-50%, -50%); transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s; }
             .cursor-hover .cursor-dot { width: 0; height: 0; opacity: 0; }
             .cursor-hover .cursor-outline { width: 50px; height: 50px; background-color: rgba(56, 189, 248, 0.1); border-color: transparent; backdrop-filter: blur(2px); }
         }
@@ -152,180 +204,584 @@
                 <a href="#about" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-user md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">01.</span>
-                    <span class="text-[11px] md:text-sm">About</span>
+                    <span class="text-[11px] md:text-sm" data-t="nav_about">About</span>
                 </a>
                 <a href="#experience" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-briefcase md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">02.</span>
-                    <span class="text-[11px] md:text-sm">Exp</span>
+                    <span class="text-[11px] md:text-sm" data-t="nav_exp">Exp</span>
                 </a>
                 <a href="#projects" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-code md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">03.</span>
-                    <span class="text-[11px] md:text-sm">Work</span>
+                    <span class="text-[11px] md:text-sm" data-t="nav_work">Work</span>
                 </a>
                 <a href="#contact" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-envelope-simple md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">04.</span>
-                    <span class="text-[11px] md:text-sm">Contact</span>
+                    <span class="text-[11px] md:text-sm" data-t="nav_contact">Contact</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content -->
-    <main class="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 lg:px-0">
-        
-        <!-- Hero Section -->
-        <section class="min-h-[90vh] flex flex-col justify-center pt-28 pb-12">
-            <div>
-                <p class="font-mono text-brand-400 mb-5 ml-1 animate-hero-1">Hi, my name is</p>
-                <h1 class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2 animate-hero-2 hacker-text" data-value="Phanuwat Khamkhan.">
-                    Phanuwat Khamkhan.
-                </h1>
-                <h2 class="text-4xl md:text-6xl font-bold text-slate-400 tracking-tight mb-8 animate-hero-3">
-                    I build tools for the digital world.
-                </h2>
-                
-                <p class="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed animate-hero-4">
-                    I'm a Full Stack Developer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on creating <span class="text-brand-400">automation tools</span>, <span class="text-brand-400">browser extensions</span>, and <span class="text-brand-400">AI-powered systems</span>.
-                </p>
-                
-                <div class="flex flex-wrap items-center gap-4 animate-hero-4">
-                    <a href="#projects" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]">
-                        Check out my work!
-                    </a>
-                    <a href="https://github.com/monsterseason1" target="_blank" class="magnetic lg:hidden font-mono text-sm text-slate-300 flex items-center gap-2 px-4 py-4 hover:text-white transition-all">
-                        <i class="ph ph-github-logo text-xl"></i> GitHub
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- About Section -->
-        <section id="about" class="py-24 border-t border-white/5 safe-reveal">
-            <div class="flex items-center gap-4 mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
-                    <span class="font-mono text-brand-400 text-xl mr-2">01.</span> About Me
-                </h2>
-                <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
-            </div>
+    <!-- Main Content Wrapper (For Reboot Effect) -->
+    <div id="app-wrapper">
+        <main class="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 lg:px-0">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <!-- Hero Section -->
+            <section class="min-h-[90vh] flex flex-col justify-center pt-28 pb-12">
                 <div>
-                    <p class="text-slate-400 leading-relaxed mb-4">
-                        Hello! My name is Phanuwat and I enjoy creating things that live on the internet. My interest in web development started when I realized I could build tools to automate repetitive tasks and make workflows more efficient.
+                    <p class="font-mono text-brand-400 mb-5 ml-1 animate-hero-1" data-t="hero_hi">Hi, my name is</p>
+                    <h1 id="heroName" class="text-5xl md:text-7xl font-extrabold text-slate-100 tracking-tight mb-2 animate-hero-2 hacker-text" data-value="Phanuwat Khamkhan." data-t="hero_name">
+                        Phanuwat Khamkhan.
+                    </h1>
+                    <h2 class="text-4xl md:text-6xl font-bold text-slate-400 tracking-tight mb-8 animate-hero-3" data-t="hero_subtitle">
+                        I build tools for the digital world.
+                    </h2>
+                    
+                    <p class="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed animate-hero-4 fade-transition" data-t="hero_desc">
+                        I'm a Full Stack Developer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on creating <span class="text-brand-400">automation tools</span>, <span class="text-brand-400">browser extensions</span>, and <span class="text-brand-400">AI-powered systems</span>.
                     </p>
-                    <p class="text-slate-400 leading-relaxed">
-                        Here are a few technologies I've been working with recently:
-                    </p>
+                    
+                    <div class="flex flex-wrap items-center gap-4 animate-hero-4">
+                        <a href="#projects" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]" data-t="hero_btn">
+                            Check out my work!
+                        </a>
+                        <a href="https://github.com/monsterseason1" target="_blank" class="magnetic lg:hidden font-mono text-sm text-slate-300 flex items-center gap-2 px-4 py-4 hover:text-white transition-all">
+                            <i class="ph ph-github-logo text-xl"></i> GitHub
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-24 border-t border-white/5 safe-reveal">
+                <!-- ... (Content remains the same) ... -->
+                <div class="flex items-center gap-4 mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
+                        <span class="font-mono text-brand-400 text-xl mr-2">01.</span> <span data-t="sec_about">About Me</span>
+                    </h2>
+                    <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
                 </div>
                 
-                <div class="grid grid-cols-2 gap-x-4 gap-y-6">
-                    <div>
-                        <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-browsers text-brand-400 mr-2"></i>Frontend</h3>
-                        <ul class="space-y-2 font-mono text-sm text-slate-400">
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript (ES6+)</li>
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> React.js</li>
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind CSS</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend</h3>
-                        <ul class="space-y-2 font-mono text-sm text-slate-400">
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
-                            <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> AI APIs</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Experience Section -->
-        <section id="experience" class="py-24 border-t border-white/5 safe-reveal">
-            <div class="flex items-center gap-4 mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
-                    <span class="font-mono text-brand-400 text-xl mr-2">02.</span> Where I've Worked
-                </h2>
-                <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
-            </div>
-
-            <div class="relative border-l border-slate-800 ml-3 md:ml-4 space-y-12 pb-4">
-                <div class="relative pl-8 glow-card rounded-lg p-4 border border-transparent hover:border-white/5 transition-colors">
-                    <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[22px] md:-left-[24px] top-6 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
-                    <div class="card-content bg-transparent !transform-none !p-0">
-                        <h3 class="text-xl font-bold text-slate-200">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
-                        <p class="font-mono text-sm text-slate-500 mb-4 mt-1">Present</p>
-                        <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
-                            <li class="flex items-start">
-                                <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
-                                <span>Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.</span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects" class="py-24 border-t border-white/5 safe-reveal">
-            <div class="flex items-center gap-4 mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
-                    <span class="font-mono text-brand-400 text-xl mr-2">03.</span> Some Things I've Built
-                </h2>
-                <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
-                <!-- Project 1 -->
-                <div class="glow-card rounded-xl h-[320px]">
-                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
-                        <div class="w-full flex justify-between items-center mb-6">
-                            <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                            <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
-                                <i class="ph ph-github-logo text-2xl"></i>
-                            </a>
-                        </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Rubber Tapper Log</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">
-                            A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div class="fade-transition" data-t="about_desc">
+                        <p class="text-slate-400 leading-relaxed mb-4">
+                            Hello! My name is Phanuwat and I enjoy creating things that live on the internet. My interest in web development started when I realized I could build tools to automate repetitive tasks and make workflows more efficient.
                         </p>
-                        <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                            <li class="magnetic">JavaScript</li>
-                            <li class="magnetic">Firebase</li>
-                            <li class="magnetic">Tailwind</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Project 2 -->
-                <div class="glow-card rounded-xl h-[320px]">
-                    <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
-                        <div class="w-full flex justify-between items-center mb-6">
-                            <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                            <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
-                                <i class="ph ph-github-logo text-2xl"></i>
-                            </a>
-                        </div>
-                        <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Cinematic Pulse Viewer</h3>
-                        <p class="text-slate-400 text-sm mb-6 flex-grow">
-                            A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.
+                        <p class="text-slate-400 leading-relaxed">
+                            Here are a few technologies I've been working with recently:
                         </p>
-                        <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                            <li class="magnetic">React</li>
-                            <li class="magnetic">Web Audio</li>
-                            <li class="magnetic">CSS Grid</li>
-                        </ul>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-x-4 gap-y-6">
+                        <div>
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-browsers text-brand-400 mr-2"></i>Frontend</h3>
+                            <ul class="space-y-2 font-mono text-sm text-slate-400">
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript (ES6+)</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> React.js</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind CSS</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend</h3>
+                            <ul class="space-y-2 font-mono text-sm text-slate-400">
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Google Apps Script</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+            </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="py-32 mb-12 border-t border-white/5 text-center safe-reveal">
-            <p class="font-mono text-brand-400 mb-4">04. What's Next?</p>
-            <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6">Get In Touch</h2>
-            <p class="text-slate-400 max-w-lg mx-auto mb-12 text-sm md:text-base">
-                My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!
-  
+            <!-- Experience Section -->
+            <section id="experience" class="py-24 border-t border-white/5 safe-reveal">
+                 <!-- ... (Content remains the same) ... -->
+                <div class="flex items-center gap-4 mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
+                        <span class="font-mono text-brand-400 text-xl mr-2">02.</span> <span data-t="sec_exp">Where I've Worked</span>
+                    </h2>
+                    <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
+                </div>
+
+                <div class="relative border-l border-slate-800 ml-3 md:ml-4 space-y-12 pb-4">
+                    <div class="relative pl-8 glow-card rounded-lg p-4 border border-transparent hover:border-white/5 transition-colors">
+                        <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[22px] md:-left-[24px] top-6 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
+                        <div class="card-content bg-transparent !transform-none !p-0">
+                            <h3 class="text-xl font-bold text-slate-200" data-t="exp_title">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
+                            <p class="font-mono text-sm text-slate-500 mb-4 mt-1" data-t="exp_date">Present</p>
+                            <ul class="space-y-3 text-slate-400 list-none text-sm md:text-base">
+                                <li class="flex items-start">
+                                    <i class="ph-fill ph-caret-right text-brand-400 text-xs mt-1.5 mr-3 shrink-0"></i>
+                                    <span data-t="exp_desc">Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects Section -->
+            <section id="projects" class="py-24 border-t border-white/5 safe-reveal">
+                <div class="flex items-center gap-4 mb-12">
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-baseline">
+                        <span class="font-mono text-brand-400 text-xl mr-2">03.</span> <span data-t="sec_work">Some Things I've Built</span>
+                    </h2>
+                    <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
+                    <!-- Project 1: KidneyCare App (ย้ายขึ้นมาอันดับ 1) -->
+                    <div class="glow-card rounded-xl h-[340px] cursor-pointer group" onclick="openModal('kidneyCareModal')">
+                        <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-brand-400/30 bg-brand-900/5 hover:bg-brand-900/10 transition-colors shadow-[0_0_15px_rgba(56,189,248,0.1)]">
+                            <div class="w-full flex justify-between items-center mb-4">
+                                <i class="ph ph-heartbeat text-5xl text-brand-400 drop-shadow-[0_0_8px_rgba(56,189,248,0.5)]"></i>
+                                <span class="bg-brand-500/20 text-brand-400 text-xs font-mono px-3 py-1 rounded-full border border-brand-400/30 flex items-center gap-1 animate-pulse">
+                                    <i class="ph-fill ph-circle text-[8px]"></i> Case Study
+                                </span>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-2 group-hover:text-brand-400 transition-colors">KidneyCare System</h3>
+                            <p class="text-slate-400 text-sm mb-4 flex-grow fade-transition" data-t="work3_desc">
+                                A serverless health tracking mini-app integrated with LINE LIFF. Built with Decoupled Architecture to overcome GAS iframe limitations.
+                            </p>
+                            
+                            <!-- ปุ่ม View Details แบบล้ำๆ -->
+                            <div class="w-full mt-auto pt-4 border-t border-white/10 flex justify-between items-center">
+                                <ul class="flex flex-wrap gap-2 font-mono text-xs text-slate-500">
+                                    <li>LINE LIFF</li>
+                                    <li>GAS API</li>
+                                </ul>
+                                <span class="text-brand-400 text-sm font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform" data-t="btn_view_details">
+                                    View Details <i class="ph ph-arrow-right"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project 2: Rubber Tapper Log (เดิมคืออันดับ 1) -->
+                    <div class="glow-card rounded-xl h-[320px]">
+                        <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
+                            <div class="w-full flex justify-between items-center mb-6">
+                                <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
+                                <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
+                                    <i class="ph ph-github-logo text-2xl"></i>
+                                </a>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Rubber Tapper Log</h3>
+                            <p class="text-slate-400 text-sm mb-6 flex-grow fade-transition" data-t="work1_desc">
+                                A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.
+                            </p>
+                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
+                                <li class="magnetic">JavaScript</li>
+                                <li class="magnetic">Firebase</li>
+                                <li class="magnetic">Tailwind</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Project 3: Cinematic Pulse Viewer (เดิมคืออันดับ 2) -->
+                    <div class="glow-card rounded-xl h-[320px]">
+                        <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
+                            <div class="w-full flex justify-between items-center mb-6">
+                                <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
+                                <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
+                                    <i class="ph ph-github-logo text-2xl"></i>
+                                </a>
+                            </div>
+                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Cinematic Pulse Viewer</h3>
+                            <p class="text-slate-400 text-sm mb-6 flex-grow fade-transition" data-t="work2_desc">
+                                A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.
+                            </p>
+                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
+                                <li class="magnetic">React</li>
+                                <li class="magnetic">Web Audio</li>
+                                <li class="magnetic">CSS Grid</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="py-32 mb-12 border-t border-white/5 text-center safe-reveal">
+                <p class="font-mono text-brand-400 mb-4" data-t="sec_contact_sub">04. What's Next?</p>
+                <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6" data-t="sec_contact">Get In Touch</h2>
+                <p class="text-slate-400 max-w-lg mx-auto mb-12 text-sm md:text-base fade-transition" data-t="contact_desc">
+                    My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!
+                </p>
+                <a href="mailto:phanuwat.k@example.com" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]" data-t="contact_btn">
+                    Say Hello
+                </a>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="text-center py-6 border-t border-white/5 font-mono text-xs text-slate-500 relative z-10">
+            <p class="inline-block cursor-default" data-t="footer">
+                Designed & Built by Phanuwat Khamkhan
+            </p>
+        </footer>
+    </div>
+
+    <!-- 🌐 Cyberpunk Language Switcher Widget -->
+    <div class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[90] magnetic" title="Switch Language / เปลี่ยนภาษา">
+        <div id="langSwitcher" class="relative flex items-center bg-[#0a0a0a]/80 border border-white/10 rounded-full p-1 shadow-[0_0_20px_rgba(56,189,248,0.2)] backdrop-blur-md overflow-hidden group w-[90px] h-[44px] transition-transform active:scale-95" onclick="toggleLanguage()">
+            <div id="langSlider" class="absolute top-1 left-1 w-[40px] h-[34px] bg-brand-500/20 border border-brand-400/50 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_0_12px_rgba(56,189,248,0.6)]"></div>
+            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold transition-colors duration-300 text-brand-400" id="label-en">EN</div>
+            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold transition-colors duration-300 text-slate-500" id="label-th">TH</div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- 🟢 MODAL: KidneyCare Case Study 🟢 -->
+    <!-- ========================================== -->
+    <div id="kidneyCareModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+        <!-- Close Button Area (Click outside to close) -->
+        <div class="absolute inset-0 cursor-pointer" onclick="closeModal('kidneyCareModal')"></div>
+        
+        <!-- Modal Content -->
+        <div class="modal-content relative bg-[#0f0f0f] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl z-10 custom-scrollbar">
+            
+            <!-- Sticky Header -->
+            <div class="sticky top-0 bg-[#0f0f0f]/90 backdrop-blur-md border-b border-white/10 p-6 flex justify-between items-center z-20">
+                <div>
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-center gap-3">
+                        <i class="ph ph-heartbeat text-brand-400"></i> KidneyCare System
+                    </h2>
+                    <p class="text-brand-400 font-mono text-xs mt-1" data-t="modal_kc_role">Full Stack Development & System Architecture</p>
+                </div>
+                <button onclick="closeModal('kidneyCareModal')" class="magnetic w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-red-500/20 hover:border-red-500/50 border border-transparent transition-all">
+                    <i class="ph ph-x text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 md:p-10 space-y-12">
+                
+                <!-- Project Overview -->
+                <div class="fade-transition" data-t="modal_kc_overview">
+                    <h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Overview</h3>
+                    <p class="text-slate-400 leading-relaxed">
+                        KidneyCare is a specialized health tracking mini-app built for LINE OA. It allows patients to record daily vital signs, water intake, and interdialytic weight gain (IDWG). The system calculates health statuses in real-time, logs data securely to Google Sheets, and sends automated push notifications back to the user via LINE.
+                    </p>
+                </div>
+
+                <!-- The Challenge & Solution -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
+                        <h4 class="text-red-400 font-bold mb-3 flex items-center gap-2"><i class="ph ph-warning-circle text-xl"></i> The Challenge</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed fade-transition" data-t="modal_kc_challenge">
+                            Initially built as a standard Google Apps Script Web App, the system faced severe CORS and timeout issues. Modern mobile browsers and LINE's In-App Browser block third-party cookies and restrict scripts within GAS's mandatory <code>&lt;iframe&gt;</code>, causing the LINE LIFF SDK initialization to fail silently.
+                        </p>
+                    </div>
+                    <div class="bg-brand-500/5 border border-brand-500/20 rounded-xl p-6">
+                        <h4 class="text-brand-400 font-bold mb-3 flex items-center gap-2"><i class="ph ph-lightbulb text-xl"></i> The Solution</h4>
+                        <p class="text-slate-400 text-sm leading-relaxed fade-transition" data-t="modal_kc_solution">
+                            Implemented a <strong>Decoupled Architecture</strong>. I migrated the frontend to GitHub Pages to completely bypass Google's iframe wrapper. Google Apps Script was refactored purely into a REST API (using <code>doPost</code>), handling backend logic and LINE Push Messaging securely without iframe interference.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Architecture Timeline -->
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-8 border-b border-white/10 pb-2 fade-transition" data-t="modal_kc_arch_title">System Architecture (Decoupled)</h3>
+                    
+                    <div class="relative pl-12 space-y-10">
+                        <div class="timeline-line"></div>
+                        
+                        <!-- Step 1 -->
+                        <div class="relative">
+                            <div class="absolute -left-12 w-8 h-8 rounded-full bg-[#111] border-2 border-brand-400 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(56,189,248,0.5)]">
+                                <i class="ph-fill ph-device-mobile text-brand-400 text-sm"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-slate-200" data-t="modal_kc_step1_title">1. Frontend (GitHub Pages)</h4>
+                            <p class="text-slate-400 text-sm mt-1 fade-transition" data-t="modal_kc_step1_desc">A responsive HTML/Tailwind CSS interface hosted independently. Loads instantly without iframe wrappers, ensuring the LINE LIFF SDK initializes flawlessly.</p>
+                            <div class="mt-3 flex gap-2">
+                                <span class="text-xs font-mono bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">Tailwind</span>
+                                <span class="text-xs font-mono bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">JS Fetch API</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="relative">
+                            <div class="absolute -left-12 w-8 h-8 rounded-full bg-[#111] border-2 border-green-500 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(34,197,94,0.5)]">
+                                <i class="ph-fill ph-chat-circle-text text-green-500 text-sm"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-slate-200" data-t="modal_kc_step2_title">2. Authentication (LINE LIFF)</h4>
+                            <p class="text-slate-400 text-sm mt-1 fade-transition" data-t="modal_kc_step2_desc">Seamlessly verifies the user's identity via LINE app. Extracts <code>userId</code> securely to map health data to the correct individual without manual login forms.</p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="relative">
+                            <div class="absolute -left-12 w-8 h-8 rounded-full bg-[#111] border-2 border-amber-500 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(245,158,11,0.5)]">
+                                <i class="ph-fill ph-plugs text-amber-500 text-sm"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-slate-200" data-t="modal_kc_step3_title">3. API Gateway (Google Apps Script)</h4>
+                            <p class="text-slate-400 text-sm mt-1 fade-transition" data-t="modal_kc_step3_desc">Acts as the backend server. The <code>doPost</code> function receives JSON payloads from the frontend, handles CORS headers, and routes data securely.</p>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="relative">
+                            <div class="absolute -left-12 w-8 h-8 rounded-full bg-[#111] border-2 border-indigo-400 flex items-center justify-center z-10 shadow-[0_0_10px_rgba(99,102,241,0.5)]">
+                                <i class="ph-fill ph-database text-indigo-400 text-sm"></i>
+                            </div>
+                            <h4 class="text-lg font-bold text-slate-200" data-t="modal_kc_step4_title">4. Database & Notifications</h4>
+                            <p class="text-slate-400 text-sm mt-1 fade-transition" data-t="modal_kc_step4_desc">Logs parsed health metrics (Temp, BP, Pulse, IDWG) into a formatted Google Sheet. Simultaneously triggers the LINE Messaging API to push a confirmation summary directly to the user's chat.</p>
+                            <div class="mt-3 flex gap-2">
+                                <span class="text-xs font-mono bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">Google Sheets API</span>
+                                <span class="text-xs font-mono bg-white/5 px-2 py-1 rounded text-slate-300 border border-white/10">LINE Messaging API</span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        // ==========================================
+        // 1. Dictionaries (ระบบพจนานุกรมแปลภาษา)
+        // ==========================================
+        const translations = {
+            nav_about: { en: "About", th: "เกี่ยวกับฉัน" },
+            nav_exp: { en: "Exp", th: "ประสบการณ์" },
+            nav_work: { en: "Work", th: "ผลงาน" },
+            nav_contact: { en: "Contact", th: "ติดต่อ" },
+            
+            hero_hi: { en: "Hi, my name is", th: "สวัสดีครับ ผมชื่อ" },
+            hero_name: { en: "Phanuwat Khamkhan.", th: "ภานุวัฒน์ คำขันย์" },
+            hero_subtitle: { en: "I build tools for the digital world.", th: "ผมสร้างเครื่องมือสำหรับโลกดิจิทัล" },
+            hero_desc: { 
+                en: "I'm a Full Stack Developer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on creating <span class='text-brand-400'>automation tools</span>, <span class='text-brand-400'>browser extensions</span>, and <span class='text-brand-400'>AI-powered systems</span>.", 
+                th: "ผมเป็น Full Stack Developer ที่เชี่ยวชาญด้านการสร้างประสบการณ์ดิจิทัลที่ยอดเยี่ยม ปัจจุบันผมเน้นไปที่การสร้าง <span class='text-brand-400'>ระบบอัตโนมัติ (Automation tools)</span>, <span class='text-brand-400'>ส่วนขยายเบราว์เซอร์</span> และ <span class='text-brand-400'>ระบบ AI</span>" 
+            },
+            hero_btn: { en: "Check out my work!", th: "ดูผลงานของผมเลย!" },
+
+            sec_about: { en: "About Me", th: "เกี่ยวกับฉัน" },
+            about_desc: {
+                en: `<p class="text-slate-400 leading-relaxed mb-4">Hello! My name is Phanuwat and I enjoy creating things that live on the internet. My interest in web development started when I realized I could build tools to automate repetitive tasks and make workflows more efficient.</p><p class="text-slate-400 leading-relaxed">Here are a few technologies I've been working with recently:</p>`,
+                th: `<p class="text-slate-400 leading-relaxed mb-4">สวัสดีครับ! ผมภานุวัฒน์ ผมสนุกกับการสร้างสรรค์สิ่งต่างๆ บนอินเทอร์เน็ต ความสนใจในการพัฒนาเว็บของผมเริ่มต้นขึ้นเมื่อผมพบว่า ผมสามารถสร้างเครื่องมือเพื่อจัดการงานซ้ำซากและทำให้กระบวนการทำงานมีประสิทธิภาพมากขึ้นได้</p><p class="text-slate-400 leading-relaxed">นี่คือเทคโนโลยีบางส่วนที่ผมใช้งานอย่างเชี่ยวชาญในปัจจุบัน:</p>`
+            },
+
+            sec_exp: { en: "Where I've Worked", th: "ประสบการณ์ทำงาน" },
+            exp_title: { en: "Independent Developer & Creator <span class='text-brand-400'>@ Freelance</span>", th: "นักพัฒนาอิสระและครีเอเตอร์ <span class='text-brand-400'>@ ฟรีแลนซ์</span>" },
+            exp_date: { en: "Present", th: "ปัจจุบัน" },
+            exp_desc: { en: "Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.", th: "พัฒนา ออกแบบ และดูแลรักษาระบบอัตโนมัติเฉพาะทางรวมถึงส่วนขยาย Chrome สำหรับดิจิทัลครีเอเตอร์" },
+
+            sec_work: { en: "Some Things I've Built", th: "ผลงานบางส่วนของผม" },
+            work1_desc: { en: "A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.", th: "แอปพลิเคชันบันทึกข้อมูลดิจิทัลที่ออกแบบมาเฉพาะสำหรับชาวสวนยางพารา เพื่อติดตามผลผลิตรายวันอย่างแม่นยำ" },
+            work2_desc: { en: "A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.", th: "เครื่องมือสร้างจังหวะภาพที่ปรับแต่งมาสำหรับเวิร์กโฟลว์การตัดต่อวิดีโอแบบภาพยนตร์ ซิงค์ภาพกับจังหวะเสียงได้อย่างง่ายดาย" },
+            work3_desc: { en: "A serverless health tracking mini-app integrated with LINE LIFF. Built with Decoupled Architecture to overcome GAS iframe limitations.", th: "แอปพลิเคชันติดตามสุขภาพแบบ Serverless ผสานการทำงานกับ LINE LIFF สร้างด้วยสถาปัตยกรรมแบบแยกส่วนเพื่อก้าวข้ามข้อจำกัด iframe ของ Google" },
+            btn_view_details: { en: "View Details <i class='ph ph-arrow-right'></i>", th: "ดูรายละเอียด <i class='ph ph-arrow-right'></i>" },
+
+            sec_contact_sub: { en: "04. What's Next?", th: "04. ก้าวต่อไป?" },
+            sec_contact: { en: "Get In Touch", th: "ติดต่อผม" },
+            contact_desc: { en: "My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!", th: "กล่องข้อความของผมเปิดรับเสมอ ไม่ว่าคุณจะมีคำถาม ข้อเสนอโปรเจกต์ หรือแค่แวะมาทักทาย ผมจะพยายามตอบกลับให้เร็วที่สุด!" },
+            contact_btn: { en: "Say Hello", th: "ส่งข้อความทักทาย" },
+            footer: { en: "Designed & Built by Phanuwat Khamkhan", th: "ออกแบบและพัฒนาโดย ภานุวัฒน์ คำขัน" },
+
+            // --- Modal Translations ---
+            modal_kc_role: { en: "Full Stack Development & System Architecture", th: "การพัฒนาแบบ Full Stack & การออกแบบสถาปัตยกรรมระบบ" },
+            modal_kc_overview: {
+                en: `<h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Overview</h3><p class="text-slate-400 leading-relaxed">KidneyCare is a specialized health tracking mini-app built for LINE OA. It allows patients to record daily vital signs, water intake, and interdialytic weight gain (IDWG). The system calculates health statuses in real-time, logs data securely to Google Sheets, and sends automated push notifications back to the user via LINE.</p>`,
+                th: `<h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">ภาพรวมโปรเจกต์</h3><p class="text-slate-400 leading-relaxed">KidneyCare เป็นแอปพลิเคชันขนาดเล็กสำหรับติดตามสุขภาพผ่าน LINE OA ช่วยให้ผู้ป่วยสามารถบันทึกสัญญาณชีพ ปริมาณน้ำดื่ม และน้ำหนักที่เพิ่มขึ้นระหว่างรอบฟอกเลือด (IDWG) ได้ทุกวัน ระบบจะคำนวณสถานะสุขภาพแบบเรียลไทม์ บันทึกข้อมูลลง Google Sheets อย่างปลอดภัย และส่งข้อความแจ้งเตือนกลับไปยังผู้ใช้ผ่าน LINE อัตโนมัติ</p>`
+            },
+            modal_kc_challenge: { 
+                en: "Initially built as a standard Google Apps Script Web App, the system faced severe CORS and timeout issues. Modern mobile browsers and LINE's In-App Browser block third-party cookies and restrict scripts within GAS's mandatory <code>&lt;iframe&gt;</code>, causing the LINE LIFF SDK initialization to fail silently.",
+                th: "ในตอนแรกระบบถูกสร้างเป็น Google Apps Script Web App ธรรมดา แต่พบปัญหา CORS และ Timeout ขั้นรุนแรง เนื่องจากเบราว์เซอร์มือถือและแอป LINE บล็อกคุกกี้และจำกัดสิทธิ์ของสคริปต์ที่อยู่ใน <code>&lt;iframe&gt;</code> ของ Google ทำให้ระบบยืนยันตัวตนของ LINE LIFF SDK ล้มเหลว"
+            },
+            modal_kc_solution: {
+                en: "Implemented a <strong>Decoupled Architecture</strong>. I migrated the frontend to GitHub Pages to completely bypass Google's iframe wrapper. Google Apps Script was refactored purely into a REST API (using <code>doPost</code>), handling backend logic and LINE Push Messaging securely without iframe interference.",
+                th: "เปลี่ยนมาใช้สถาปัตยกรรมแบบ <strong>Decoupled (แยกส่วน)</strong> โดยย้ายหน้าเว็บ Frontend ไปไว้บน GitHub Pages เพื่อหลุดออกจากกรอบ iframe ของ Google โดยสมบูรณ์ จากนั้นปรับเปลี่ยน Google Apps Script ให้เป็น REST API (ใช้คำสั่ง <code>doPost</code>) เพื่อจัดการฐานข้อมูลและส่งข้อความ LINE Push อย่างปลอดภัยและเสถียร 100%"
+            },
+            modal_kc_arch_title: { en: "System Architecture (Decoupled)", th: "สถาปัตยกรรมของระบบ (แบบแยกส่วน)" },
+            modal_kc_step1_title: { en: "1. Frontend (GitHub Pages)", th: "1. ระบบหน้าบ้าน (GitHub Pages)" },
+            modal_kc_step1_desc: { en: "A responsive HTML/Tailwind CSS interface hosted independently. Loads instantly without iframe wrappers, ensuring the LINE LIFF SDK initializes flawlessly.", th: "หน้าเว็บ HTML/Tailwind CSS ที่รองรับมือถือถูกนำไปโฮสต์แยกต่างหาก โหลดได้ทันทีโดยไม่ต้องผ่าน iframe ทำให้ระบบดึงข้อมูลจาก LINE LIFF ทำงานได้รวดเร็วและไม่มีสะดุด" },
+            modal_kc_step2_title: { en: "2. Authentication (LINE LIFF)", th: "2. การยืนยันตัวตน (LINE LIFF)" },
+            modal_kc_step2_desc: { en: "Seamlessly verifies the user's identity via LINE app. Extracts <code>userId</code> securely to map health data to the correct individual without manual login forms.", th: "ตรวจสอบตัวตนของผู้ใช้อัตโนมัติผ่านแอป LINE ดึงข้อมูล <code>userId</code> อย่างปลอดภัยเพื่อนำไปบันทึกข้อมูลสุขภาพให้ตรงกับบุคคล โดยที่ผู้ใช้ไม่ต้องพิมพ์รหัสผ่านใดๆ" },
+            modal_kc_step3_title: { en: "3. API Gateway (Google Apps Script)", th: "3. ช่องทางรับข้อมูล (GAS API)" },
+            modal_kc_step3_desc: { en: "Acts as the backend server. The <code>doPost</code> function receives JSON payloads from the frontend, handles CORS headers, and routes data securely.", th: "ทำหน้าที่เป็นเซิร์ฟเวอร์หลังบ้าน โดยใช้ฟังก์ชัน <code>doPost</code> ในการรับข้อมูล JSON ที่ส่งมาจากหน้าเว็บ จัดการเรื่อง CORS Headers และจัดส่งข้อมูลไปยังปลายทาง" },
+            modal_kc_step4_title: { en: "4. Database & Notifications", th: "4. ฐานข้อมูล และ แจ้งเตือน" },
+            modal_kc_step4_desc: { en: "Logs parsed health metrics (Temp, BP, Pulse, IDWG) into a formatted Google Sheet. Simultaneously triggers the LINE Messaging API to push a confirmation summary directly to the user's chat.", th: "บันทึกผลการคำนวณสุขภาพ (อุณหภูมิ, ความดัน, ชีพจร, IDWG) ลงใน Google Sheets พร้อมกันนั้นระบบจะยิง API ของ LINE เพื่อส่งข้อความสรุปผลตรวจกลับเข้าในห้องแชทส่วนตัวของผู้ใช้อัตโนมัติ" }
+        };
+
+        let currentLang = 'en';
+        const scrambleChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$*&%";
+
+        // ==========================================
+        // 2. Language Switcher Logic & Cyberpunk Effects
+        // ==========================================
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'th' : 'en';
+
+            // อัปเดตปุ่มสวิตช์
+            const slider = document.getElementById('langSlider');
+            const lblEn = document.getElementById('label-en');
+            const lblTh = document.getElementById('label-th');
+
+            if (currentLang === 'th') {
+                slider.style.transform = 'translateX(42px)';
+                lblEn.classList.replace('text-brand-400', 'text-slate-500');
+                lblTh.classList.replace('text-slate-500', 'text-brand-400');
+            } else {
+                slider.style.transform = 'translateX(0px)';
+                lblEn.classList.replace('text-slate-500', 'text-brand-400');
+                lblTh.classList.replace('text-brand-400', 'text-slate-500');
+            }
+
+            // เอฟเฟกต์ System Reboot 
+            const wrapper = document.getElementById('app-wrapper');
+            wrapper.classList.remove('rebooting');
+            void wrapper.offsetWidth;
+            wrapper.classList.add('rebooting');
+
+            // เปลี่ยนภาษา
+            document.querySelectorAll('[data-t]').forEach(el => {
+                const key = el.getAttribute('data-t');
+                const targetText = translations[key][currentLang];
+
+                if (el.classList.contains('fade-transition')) {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(10px)';
+                    setTimeout(() => {
+                        el.innerHTML = targetText;
+                        el.style.opacity = '1';
+                        el.style.transform = 'translateY(0)';
+                    }, 200); 
+                } 
+                else {
+                    scrambleTextEffect(el, targetText);
+                    if(el.classList.contains('hacker-text')) {
+                        el.setAttribute('data-value', targetText);
+                    }
+                }
+            });
+        }
+
+        // เอฟเฟกต์สุ่มตัวอักษรแบบแฮกเกอร์
+        function scrambleTextEffect(element, finalString) {
+            let iterations = 0;
+            const speed = finalString.length > 20 ? 1 : 2; 
+
+            const interval = setInterval(() => {
+                element.innerText = finalString.split('').map((char, index) => {
+                    if(char === ' ' || char === '\n') return char; 
+                    if(index < iterations) return finalString[index]; 
+                    return scrambleChars[Math.floor(Math.random() * scrambleChars.length)]; 
+                }).join('');
+
+                if(iterations >= finalString.length) {
+                    clearInterval(interval);
+                    if(finalString.includes('<')) {
+                        element.innerHTML = finalString;
+                    } else {
+                        element.innerText = finalString;
+                    }
+                }
+                iterations += speed; 
+            }, 30);
+        }
+
+        // ==========================================
+        // 3. Modal Control Functions
+        // ==========================================
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('open');
+            document.body.classList.remove('modal-open');
+        }
+
+        // ปิด Modal ถ่ากดปุ่ม ESC
+        document.addEventListener('keydown', function(event) {
+            if (event.key === "Escape") {
+                const openModalElem = document.querySelector('.modal-backdrop.open');
+                if (openModalElem) {
+                    closeModal(openModalElem.id);
+                }
+            }
+        });
+
+        // ==========================================
+        // 4. Existing Custom Effects
+        // ==========================================
+        
+        // Hacker Text Hover
+        document.querySelector('.hacker-text').onmouseover = event => {
+            let iterations = 0;
+            const finalString = event.target.dataset.value;
+            const interval = setInterval(() => {
+                event.target.innerText = finalString.split('').map((char, index) => {
+                    if(char === ' ') return char;
+                    if(index < iterations) return finalString[index];
+                    return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
+                }).join('');
+                if(iterations >= finalString.length) clearInterval(interval);
+                iterations += 1/3;
+            }, 30);
+        };
+
+        // Custom Cursor
+        const updateMousePosition = (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            
+            document.documentElement.style.setProperty('--mouse-x', `${x}px`);
+            document.documentElement.style.setProperty('--mouse-y', `${y}px`);
+            
+            const dot = document.querySelector('.cursor-dot');
+            const outline = document.querySelector('.cursor-outline');
+            if(dot && outline) {
+                dot.style.transform = `translate(${x}px, ${y}px)`;
+                outline.style.transform = `translate(${x}px, ${y}px)`;
+            }
+        };
+        window.addEventListener('mousemove', updateMousePosition);
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.safe-reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.remove('is-hidden');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        revealElements.forEach(el => {
+            el.classList.add('is-hidden');
+            revealObserver.observe(el);
+        });
+
+        // Magnetic Button
+        const magneticElements = document.querySelectorAll('.magnetic');
+        magneticElements.forEach(elem => {
+            elem.addEventListener('mousemove', (e) => {
+                const rect = elem.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+                
+                elem.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+                document.body.classList.add('cursor-hover');
+            });
+            
+            elem.addEventListener('mouseleave', () => {
+                elem.style.transform = `translate(0px, 0px)`;
+                document.body.classList.remove('cursor-hover');
+            });
+        });
+    </script>
+</body>
+</html>
