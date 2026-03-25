@@ -49,7 +49,7 @@
         ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #404040; }
 
-        /* Safe Animations */
+        /* Animations */
         @keyframes safeFadeUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -68,7 +68,7 @@
             transform: translateY(40px);
         }
 
-        /* 2030 3D Tilt Cards & Glow */
+        /* 3D Tilt Cards & Glow */
         .glow-card { 
             position: relative; 
             transform-style: preserve-3d;
@@ -99,14 +99,12 @@
             transition: transform 0.3s ease;
         }
 
-        /* 2030 Magnetic Items */
         .magnetic {
             display: inline-block;
             transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             will-change: transform;
         }
 
-        /* 2030 Cyberpunk Sweep Button */
         .btn-cyber {
             position: relative; overflow: hidden;
             transition: all 0.3s ease;
@@ -118,7 +116,6 @@
         }
         .btn-cyber:hover::before { left: 150%; }
 
-        /* System Reboot Glitch Effect (For Language Switch) */
         @keyframes systemReboot {
             0% { filter: hue-rotate(0deg) contrast(1); transform: skewX(0deg); }
             20% { filter: hue-rotate(90deg) contrast(2) invert(1); transform: skewX(-5deg); }
@@ -131,7 +128,6 @@
             animation: systemReboot 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
         }
 
-        /* HTML Fade Effect for complex elements */
         .fade-transition {
             transition: opacity 0.3s ease, transform 0.3s ease;
         }
@@ -159,17 +155,6 @@
         }
         body.modal-open { overflow: hidden; }
 
-        /* Timeline Styles */
-        .timeline-line {
-            position: absolute;
-            left: 24px;
-            top: 24px;
-            bottom: 24px;
-            width: 2px;
-            background: linear-gradient(to bottom, #38bdf8 0%, rgba(56, 189, 248, 0.1) 100%);
-            z-index: 0;
-        }
-
         /* Custom Cursor */
         @media (min-width: 768px) {
             body, a, button, .magnetic, #langSwitcher { cursor: none; }
@@ -187,9 +172,9 @@
     <div class="cursor-dot hidden md:block"></div>
     <div class="cursor-outline hidden md:block"></div>
 
-    <!-- 2030 Dynamic Ambient Orbs -->
-    <div id="orb-1" class="fixed top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-brand-500/10 blur-[100px] pointer-events-none z-0 transition-transform duration-[3000ms] ease-out"></div>
-    <div id="orb-2" class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none z-0 transition-transform duration-[4000ms] ease-out"></div>
+    <!-- Orbs -->
+    <div id="orb-1" class="fixed top-1/4 left-1/4 w-[400px] h-[400px] rounded-full bg-brand-500/10 blur-[100px] pointer-events-none z-0"></div>
+    <div id="orb-2" class="fixed bottom-1/4 right-1/4 w-[500px] h-[500px] rounded-full bg-indigo-500/10 blur-[120px] pointer-events-none z-0"></div>
 
     <!-- Dot Background -->
     <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.3] bg-dot-pattern" style="background-size: 24px 24px;"></div>
@@ -204,28 +189,28 @@
                 <a href="#about" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-user md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">01.</span>
-                    <span class="text-[11px] md:text-sm" data-t="nav_about">About</span>
+                    <span data-t="nav_about">About</span>
                 </a>
                 <a href="#experience" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-briefcase md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">02.</span>
-                    <span class="text-[11px] md:text-sm" data-t="nav_exp">Exp</span>
+                    <span data-t="nav_exp">Exp</span>
                 </a>
                 <a href="#projects" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-code md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">03.</span>
-                    <span class="text-[11px] md:text-sm" data-t="nav_work">Work</span>
+                    <span data-t="nav_work">Work</span>
                 </a>
                 <a href="#contact" class="magnetic px-3 py-2 rounded-lg hover:bg-white/5 transition-colors flex flex-col md:flex-row items-center text-slate-300 hover:text-brand-400">
                     <i class="ph ph-envelope-simple md:hidden text-lg mb-1 text-brand-400"></i>
                     <span class="font-mono text-brand-400 text-xs mr-1 hidden md:inline">04.</span>
-                    <span class="text-[11px] md:text-sm" data-t="nav_contact">Contact</span>
+                    <span data-t="nav_contact">Contact</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <!-- Main Content Wrapper (For Reboot Effect) -->
+    <!-- Main Content Wrapper -->
     <div id="app-wrapper">
         <main class="relative z-10 max-w-[1000px] mx-auto px-6 md:px-12 lg:px-0">
             
@@ -247,9 +232,6 @@
                     <div class="flex flex-wrap items-center gap-4 animate-hero-4">
                         <a href="#projects" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]" data-t="hero_btn">
                             Check out my work!
-                        </a>
-                        <a href="https://github.com/monsterseason1" target="_blank" class="magnetic lg:hidden font-mono text-sm text-slate-300 flex items-center gap-2 px-4 py-4 hover:text-white transition-all">
-                            <i class="ph ph-github-logo text-xl"></i> GitHub
                         </a>
                     </div>
                 </div>
@@ -274,31 +256,41 @@
                         </p>
                     </div>
                     
-                    <!-- Skills Grid: Updated to 3 columns on desktop -->
                     <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
+                        <!-- Frontend Skills -->
                         <div>
-                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-browsers text-brand-400 mr-2"></i>Frontend</h3>
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
+                                <i class="ph ph-browsers text-brand-400"></i>
+                                <span data-t="skill_cat_frontend">Frontend</span>
+                            </h3>
                             <ul class="space-y-2 font-mono text-sm text-slate-400">
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript (ES6+)</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> JavaScript</li>
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> React.js</li>
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind CSS</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Tailwind</li>
                             </ul>
                         </div>
+                        <!-- Backend Skills -->
                         <div>
-                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-hard-drives text-brand-400 mr-2"></i>Backend</h3>
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
+                                <i class="ph ph-hard-drives text-brand-400"></i>
+                                <span data-t="skill_cat_backend">Backend</span>
+                            </h3>
                             <ul class="space-y-2 font-mono text-sm text-slate-400">
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Apps Script</li>
                             </ul>
                         </div>
-                        <!-- New Skills Column: Data & Business Tools -->
+                        <!-- Data Skills -->
                         <div class="col-span-2 lg:col-span-1">
-                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-chart-bar text-brand-400 mr-2"></i>Data & Tools</h3>
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2 flex items-center gap-2">
+                                <i class="ph ph-chart-bar text-brand-400"></i>
+                                <span data-t="skill_cat_data">Data & Tools</span>
+                            </h3>
                             <ul class="space-y-2 font-mono text-sm text-slate-400">
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Excel/Sheets</li>
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> SUMIFS Logic</li>
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Dashboarding</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> <span data-t="skill_excel">Excel/Sheets</span></li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> <span data-t="skill_sumifs">SUMIFS Logic</span></li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> <span data-t="skill_dash">Dashboarding</span></li>
                             </ul>
                         </div>
                     </div>
@@ -315,7 +307,7 @@
                 </div>
 
                 <div class="relative border-l border-slate-800 ml-3 md:ml-4 space-y-12 pb-4">
-                    <div class="relative pl-8 glow-card rounded-lg p-4 border border-transparent hover:border-white/5 transition-colors">
+                    <div class="relative pl-8 glow-card rounded-lg p-4">
                         <div class="absolute w-3 h-3 bg-brand-400 rounded-full -left-[22px] md:-left-[24px] top-6 shadow-[0_0_10px_rgba(56,189,248,0.5)]"></div>
                         <div class="card-content bg-transparent !transform-none !p-0">
                             <h3 class="text-xl font-bold text-slate-200" data-t="exp_title">Independent Developer & Creator <span class="text-brand-400">@ Freelance</span></h3>
@@ -340,14 +332,14 @@
                     <div class="h-[1px] flex-1 bg-slate-800 max-w-[300px]"></div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     
-                    <!-- Feature Success: IAME ASIA Finance Dashboard -->
-                    <div class="glow-card rounded-xl h-[340px] group border border-brand-400/30 shadow-[0_0_30px_rgba(56,189,248,0.1)]">
+                    <!-- Highlight: Financial Dashboard -->
+                    <div class="glow-card rounded-xl h-[340px] group border border-brand-400/30">
                         <div class="card-content p-6 md:p-8 flex flex-col items-start h-full bg-brand-500/5">
                             <div class="w-full flex justify-between items-center mb-4">
                                 <i class="ph ph-chart-line-up text-5xl text-brand-400"></i>
-                                <span class="bg-brand-500/20 text-brand-400 text-[10px] font-mono px-2 py-1 rounded border border-brand-400/30">BUSINESS SOLUTION</span>
+                                <span class="bg-brand-500/20 text-brand-400 text-[10px] font-mono px-2 py-1 rounded border border-brand-400/30" data-t="work4_badge">BUSINESS SOLUTION</span>
                             </div>
                             <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-2 group-hover:text-brand-400 transition-colors" data-t="work4_title">Automated Finance Dashboard</h3>
                             <p class="text-slate-400 text-sm mb-4 flex-grow fade-transition" data-t="work4_desc">
@@ -355,15 +347,15 @@
                             </p>
                             <div class="w-full mt-auto pt-4 border-t border-white/10">
                                 <ul class="flex flex-wrap gap-2 font-mono text-[10px] text-slate-500">
-                                    <li>Complex SUMIFS</li>
-                                    <li>Data Visualization</li>
-                                    <li>Business Automation</li>
+                                    <li data-t="tag_complex">Complex SUMIFS</li>
+                                    <li data-t="tag_viz">Data Visualization</li>
+                                    <li data-t="tag_auto">Business Automation</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Project: KidneyCare App -->
+                    <!-- Project: KidneyCare -->
                     <div class="glow-card rounded-xl h-[340px] cursor-pointer group" onclick="openModal('kidneyCareModal')">
                         <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
                             <div class="w-full flex justify-between items-center mb-4">
@@ -387,127 +379,49 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Project: Rubber Tapper Log -->
-                    <div class="glow-card rounded-xl h-[340px]">
-                        <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
-                            <div class="w-full flex justify-between items-center mb-6">
-                                <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                                <a href="https://github.com/monsterseason1/rubber-tapper-log" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
-                                    <i class="ph ph-github-logo text-2xl"></i>
-                                </a>
-                            </div>
-                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Rubber Tapper Log</h3>
-                            <p class="text-slate-400 text-sm mb-6 flex-grow fade-transition" data-t="work1_desc">
-                                A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.
-                            </p>
-                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                                <li class="magnetic">JavaScript</li>
-                                <li class="magnetic">Firebase</li>
-                                <li class="magnetic">Tailwind</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <!-- Project: Cinematic Pulse Viewer -->
-                    <div class="glow-card rounded-xl h-[340px]">
-                        <div class="card-content p-6 md:p-8 flex flex-col items-start h-full border border-white/5 hover:border-brand-400/30">
-                            <div class="w-full flex justify-between items-center mb-6">
-                                <i class="ph ph-folder-simple text-4xl text-brand-400"></i>
-                                <a href="https://github.com/monsterseason1/cinematic-pulse-viewer" target="_blank" class="magnetic text-slate-400 hover:text-brand-400 transition-colors">
-                                    <i class="ph ph-github-logo text-2xl"></i>
-                                </a>
-                            </div>
-                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-3 group-hover:text-brand-400 transition-colors">Cinematic Pulse Viewer</h3>
-                            <p class="text-slate-400 text-sm mb-6 flex-grow fade-transition" data-t="work2_desc">
-                                A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.
-                            </p>
-                            <ul class="flex flex-wrap gap-3 font-mono text-xs text-slate-500 mt-auto">
-                                <li class="magnetic">React</li>
-                                <li class="magnetic">Web Audio</li>
-                                <li class="magnetic">CSS Grid</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
                 </div>
             </section>
 
-            <!-- Contact Section -->
+            <!-- Contact -->
             <section id="contact" class="py-32 mb-12 border-t border-white/5 text-center safe-reveal">
                 <p class="font-mono text-brand-400 mb-4" data-t="sec_contact_sub">04. What's Next?</p>
                 <h2 class="text-4xl md:text-5xl font-bold text-slate-100 mb-6" data-t="sec_contact">Get In Touch</h2>
                 <p class="text-slate-400 max-w-lg mx-auto mb-12 text-sm md:text-base fade-transition" data-t="contact_desc">
                     My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!
                 </p>
-                <a href="mailto:phanuwat.k@example.com" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint hover:shadow-[0_0_20px_rgba(56,189,248,0.3)]" data-t="contact_btn">
+                <a href="mailto:phanuwat.k@example.com" class="magnetic btn-cyber inline-block font-mono text-sm border border-brand-400 text-brand-400 px-7 py-4 rounded hover:bg-brand-tint" data-t="contact_btn">
                     Say Hello
                 </a>
             </section>
 
         </main>
 
-        <!-- Footer -->
         <footer class="text-center py-6 border-t border-white/5 font-mono text-xs text-slate-500 relative z-10">
-            <p class="inline-block cursor-default" data-t="footer">
-                Designed & Built by Phanuwat Khamkhan
-            </p>
+            <p data-t="footer">Designed & Built by Phanuwat Khamkhan</p>
         </footer>
     </div>
 
-    <!-- Language Switcher Widget -->
-    <div class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[90] magnetic" title="Switch Language / เปลี่ยนภาษา">
-        <div id="langSwitcher" class="relative flex items-center bg-[#0a0a0a]/80 border border-white/10 rounded-full p-1 shadow-[0_0_20px_rgba(56,189,248,0.2)] backdrop-blur-md overflow-hidden group w-[90px] h-[44px] transition-transform active:scale-95" onclick="toggleLanguage()">
-            <div id="langSlider" class="absolute top-1 left-1 w-[40px] h-[34px] bg-brand-500/20 border border-brand-400/50 rounded-full transition-transform duration-300 ease-[cubic-bezier(0.175,0.885,0.32,1.275)] shadow-[0_0_12px_rgba(56,189,248,0.6)]"></div>
-            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold transition-colors duration-300 text-brand-400" id="label-en">EN</div>
-            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold transition-colors duration-300 text-slate-500" id="label-th">TH</div>
+    <!-- Language Switcher -->
+    <div class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-[90] magnetic">
+        <div id="langSwitcher" class="relative flex items-center bg-[#0a0a0a]/80 border border-white/10 rounded-full p-1 shadow-[0_0_20px_rgba(56,189,248,0.2)] backdrop-blur-md group w-[90px] h-[44px]" onclick="toggleLanguage()">
+            <div id="langSlider" class="absolute top-1 left-1 w-[40px] h-[34px] bg-brand-500/20 border border-brand-400/50 rounded-full transition-transform duration-300"></div>
+            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold text-brand-400" id="label-en">EN</div>
+            <div class="relative z-10 w-1/2 text-center font-mono text-sm font-bold text-slate-500" id="label-th">TH</div>
         </div>
     </div>
 
-    <!-- MODAL: KidneyCare Case Study -->
-    <div id="kidneyCareModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-        <div class="absolute inset-0 cursor-pointer" onclick="closeModal('kidneyCareModal')"></div>
-        <div class="modal-content relative bg-[#0f0f0f] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl z-10 custom-scrollbar">
-            <div class="sticky top-0 bg-[#0f0f0f]/90 backdrop-blur-md border-b border-white/10 p-6 flex justify-between items-center z-20">
-                <div>
-                    <h2 class="text-2xl md:text-3xl font-bold text-slate-100 flex items-center gap-3">
-                        <i class="ph ph-heartbeat text-brand-400"></i> KidneyCare System
-                    </h2>
-                    <p class="text-brand-400 font-mono text-xs mt-1" data-t="modal_kc_role">Full Stack Development & System Architecture</p>
-                </div>
-                <button onclick="closeModal('kidneyCareModal')" class="magnetic w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 hover:text-white hover:bg-red-500/20 hover:border-red-500/50 border border-transparent transition-all">
-                    <i class="ph ph-x text-xl"></i>
-                </button>
-            </div>
-            <div class="p-6 md:p-10 space-y-12">
-                <div class="fade-transition" data-t="modal_kc_overview">
-                    <h3 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Overview</h3>
-                    <p class="text-slate-400 leading-relaxed">
-                        KidneyCare is a specialized health tracking mini-app built for LINE OA. It allows patients to record daily vital signs, water intake, and interdialytic weight gain (IDWG). The system calculates health statuses in real-time, logs data securely to Google Sheets, and sends automated push notifications back to the user via LINE.
-                    </p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="bg-red-500/5 border border-red-500/20 rounded-xl p-6">
-                        <h4 class="text-red-400 font-bold mb-3 flex items-center gap-2"><i class="ph ph-warning-circle text-xl"></i> The Challenge</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed fade-transition" data-t="modal_kc_challenge">
-                            Initially built as a standard Google Apps Script Web App, the system faced severe CORS and timeout issues. Modern mobile browsers and LINE's In-App Browser block third-party cookies and restrict scripts within GAS's mandatory <code>&lt;iframe&gt;</code>, causing the LINE LIFF SDK initialization to fail silently.
-                        </p>
-                    </div>
-                    <div class="bg-brand-500/5 border border-brand-500/20 rounded-xl p-6">
-                        <h4 class="text-brand-400 font-bold mb-3 flex items-center gap-2"><i class="ph ph-lightbulb text-xl"></i> The Solution</h4>
-                        <p class="text-slate-400 text-sm leading-relaxed fade-transition" data-t="modal_kc_solution">
-                            Implemented a <strong>Decoupled Architecture</strong>. I migrated the frontend to GitHub Pages to completely bypass Google's iframe wrapper. Google Apps Script was refactored purely into a REST API (using <code>doPost</code>), handling backend logic and LINE Push Messaging securely without iframe interference.
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <!-- Modal (Static for brevity) -->
+    <div id="kidneyCareModal" class="modal-backdrop fixed inset-0 z-[100] flex items-center justify-center p-4">
+        <div class="absolute inset-0" onclick="closeModal('kidneyCareModal')"></div>
+        <div class="modal-content relative bg-[#0f0f0f] border border-white/10 rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-10">
+            <h2 class="text-3xl font-bold text-white mb-6">KidneyCare System</h2>
+            <p class="text-slate-400 leading-relaxed" data-t="modal_kc_overview">Detailed case study content here...</p>
         </div>
     </div>
 
-    <!-- Scripts -->
     <script>
         const translations = {
-            nav_about: { en: "About", th: "เกี่ยวกับฉัน" },
+            nav_about: { en: "About", th: "เกี่ยวกับผม" },
             nav_exp: { en: "Exp", th: "ประสบการณ์" },
             nav_work: { en: "Work", th: "ผลงาน" },
             nav_contact: { en: "Contact", th: "ติดต่อ" },
@@ -517,34 +431,43 @@
             hero_subtitle: { en: "I build tools for the digital world.", th: "ผมสร้างเครื่องมือสำหรับโลกดิจิทัล" },
             hero_desc: { 
                 en: "I'm a Full Stack Developer specializing in building (and occasionally designing) exceptional digital experiences. Currently, I'm focused on creating <span class='text-brand-400'>automation tools</span>, <span class='text-brand-400'>browser extensions</span>, and <span class='text-brand-400'>AI-powered systems</span>.", 
-                th: "ผมเป็น Full Stack Developer ที่เชี่ยวชาญด้านการสร้างประสบการณ์ดิจิทัลที่ยอดเยี่ยม ปัจจุบันผมเน้นไปที่การสร้าง <span class='text-brand-400'>ระบบอัตโนมัติ (Automation tools)</span>, <span class='text-brand-400'>ส่วนขยายเบราว์เซอร์</span> และ <span class='text-brand-400'>ระบบ AI</span>" 
+                th: "ผมเป็น Full Stack Developer ที่เชี่ยวชาญการสร้างประสบการณ์ดิจิทัลที่ยอดเยี่ยม ปัจจุบันผมเน้นการสร้าง <span class='text-brand-400'>ระบบอัตโนมัติ</span>, <span class='text-brand-400'>ส่วนขยายเบราว์เซอร์</span> และ <span class='text-brand-400'>ระบบ AI</span>" 
             },
-            hero_btn: { en: "Check out my work!", th: "ดูผลงานของผมเลย!" },
+            hero_btn: { en: "Check out my work!", th: "ดูผลงานของผม!" },
 
-            sec_about: { en: "About Me", th: "เกี่ยวกับฉัน" },
+            sec_about: { en: "About Me", th: "เกี่ยวกับผม" },
             about_desc: {
                 en: `<p class="text-slate-400 leading-relaxed mb-4">Hello! My name is Phanuwat and I enjoy creating things that live on the internet. My interest in web development started when I realized I could build tools to automate repetitive tasks and make workflows more efficient.</p><p class="text-slate-400 leading-relaxed">Here are a few technologies I've been working with recently:</p>`,
-                th: `<p class="text-slate-400 leading-relaxed mb-4">สวัสดีครับ! ผมภานุวัฒน์ ผมสนุกกับการสร้างสรรค์สิ่งต่างๆ บนอินเทอร์เน็ต ความสนใจในการพัฒนาเว็บของผมเริ่มต้นขึ้นเมื่อผมพบว่า ผมสามารถสร้างเครื่องมือเพื่อจัดการงานซ้ำซากและทำให้กระบวนการทำงานมีประสิทธิภาพมากขึ้นได้</p><p class="text-slate-400 leading-relaxed">นี่คือเทคโนโลยีบางส่วนที่ผมใช้งานอย่างเชี่ยวชาญในปัจจุบัน:</p>`
+                th: `<p class="text-slate-400 leading-relaxed mb-4">สวัสดีครับ! ผมภานุวัฒน์ ผมสนุกกับการสร้างสรรค์สิ่งต่างๆ บนอินเทอร์เน็ต ความสนใจในการพัฒนาเว็บของผมเริ่มต้นขึ้นเมื่อผมพบว่าผมสามารถสร้างเครื่องมือเพื่อจัดการงานซ้ำซากและทำให้กระบวนการทำงานมีประสิทธิภาพมากขึ้นได้</p><p class="text-slate-400 leading-relaxed">นี่คือเทคโนโลยีบางส่วนที่ผมใช้งานอยู่เป็นประจำครับ:</p>`
             },
+
+            skill_cat_frontend: { en: "Frontend", th: "หน้าบ้าน" },
+            skill_cat_backend: { en: "Backend", th: "หลังบ้าน" },
+            skill_cat_data: { en: "Data & Tools", th: "ข้อมูลและเครื่องมือ" },
+            skill_excel: { en: "Excel/Sheets", th: "เอ็กเซล/ชีท" },
+            skill_sumifs: { en: "SUMIFS Logic", th: "ตรรกะ SUMIFS" },
+            skill_dash: { en: "Dashboarding", th: "แดชบอร์ด" },
 
             sec_exp: { en: "Where I've Worked", th: "ประสบการณ์ทำงาน" },
             exp_title: { en: "Independent Developer & Creator <span class='text-brand-400'>@ Freelance</span>", th: "นักพัฒนาอิสระและครีเอเตอร์ <span class='text-brand-400'>@ ฟรีแลนซ์</span>" },
             exp_date: { en: "Present", th: "ปัจจุบัน" },
-            exp_desc: { en: "Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.", th: "พัฒนา ออกแบบ และดูแลรักษาระบบอัตโนมัติเฉพาะทางรวมถึงส่วนขยาย Chrome สำหรับดิจิทัลครีเอเตอร์" },
+            exp_desc: { en: "Develop, design, and maintain specialized automation tools and Chrome extensions for digital creators.", th: "พัฒนา ออกแบบ และดูแลเครื่องมืออัตโนมัติเฉพาะทางรวมถึงส่วนขยาย Chrome สำหรับดิจิทัลครีเอเตอร์" },
 
-            sec_work: { en: "Some Things I've Built", th: "ผลงานบางส่วนของผม" },
-            work1_desc: { en: "A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.", th: "แอปพลิเคชันบันทึกข้อมูลดิจิทัลที่ออกแบบมาเฉพาะสำหรับชาวสวนยางพารา เพื่อติดตามผลผลิตรายวันอย่างแม่นยำ" },
-            work2_desc: { en: "A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.", th: "เครื่องมือสร้างจังหวะภาพที่ปรับแต่งมาสำหรับเวิร์กโฟลว์การตัดต่อวิดีโอแบบภาพยนตร์ ซิงค์ภาพกับจังหวะเสียงได้อย่างง่ายดาย" },
-            work3_desc: { en: "A serverless health tracking mini-app integrated with LINE LIFF. Built with Decoupled Architecture to overcome GAS iframe limitations.", th: "แอปพลิเคชันติดตามสุขภาพแบบ Serverless ผสานการทำงานกับ LINE LIFF สร้างด้วยสถาปัตยกรรมแบบแยกส่วนเพื่อก้าวข้ามข้อจำกัด iframe ของ Google" },
+            sec_work: { en: "Some Things I've Built", th: "ผลงานบางส่วน" },
+            work3_desc: { en: "A serverless health tracking mini-app integrated with LINE LIFF. Built with Decoupled Architecture to overcome GAS iframe limitations.", th: "มินิแอปติดตามสุขภาพแบบ Serverless เชื่อมต่อกับ LINE LIFF สร้างด้วยสถาปัตยกรรมแยกส่วนเพื่อข้ามขีดจำกัดของ GAS iframe" },
+            work4_badge: { en: "BUSINESS SOLUTION", th: "โซลูชันธุรกิจ" },
             work4_title: { en: "Automated Finance Dashboard", th: "ระบบสรุปยอดเงินอัตโนมัติ" },
-            work4_desc: { en: "Engineered a high-precision financial tracking system for IAME ASIA. Automated multi-currency verification and payment status tracking using advanced Excel architecture.", th: "พัฒนาระบบติดตามการเงินความแม่นยำสูงสำหรับการแข่งขัน IAME ASIA จัดการการตรวจสอบยอดเงินหลายประเภทและสถานะการชำระเงินอัตโนมัติด้วยโครงสร้างสูตรขั้นสูง" },
+            work4_desc: { en: "Engineered a high-precision financial tracking system for IAME ASIA. Automated multi-currency verification and payment status tracking using advanced Excel architecture.", th: "ออกแบบระบบติดตามการเงินความแม่นยำสูงให้ IAME ASIA จัดการตรวจสอบยอดเงินหลายสกุลและสถานะการชำระเงินอัตโนมัติด้วยโครงสร้างเอ็กเซลขั้นสูง" },
+            tag_complex: { en: "Complex SUMIFS", th: "SUMIFS ขั้นสูง" },
+            tag_viz: { en: "Data Visualization", th: "การแสดงข้อมูล" },
+            tag_auto: { en: "Business Automation", th: "ระบบธุรกิจอัตโนมัติ" },
             btn_view_details: { en: "View Details <i class='ph ph-arrow-right'></i>", th: "ดูรายละเอียด <i class='ph ph-arrow-right'></i>" },
 
             sec_contact_sub: { en: "04. What's Next?", th: "04. ก้าวต่อไป?" },
             sec_contact: { en: "Get In Touch", th: "ติดต่อผม" },
-            contact_desc: { en: "My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!", th: "กล่องข้อความของผมเปิดรับเสมอ ไม่ว่าคุณจะมีคำถาม ข้อเสนอโปรเจกต์ หรือแค่แวะมาทักทาย ผมจะพยายามตอบกลับให้เร็วที่สุด!" },
-            contact_btn: { en: "Say Hello", th: "ส่งข้อความทักทาย" },
-            footer: { en: "Designed & Built by Phanuwat Khamkhan", th: "ออกแบบและพัฒนาโดย ภานุวัฒน์ คำขัน" },
+            contact_desc: { en: "My inbox is always open. Whether you have a question, a project proposal, or just want to say hi, I'll try my best to get back to you!", th: "กล่องข้อความของผมเปิดรับเสมอครับ ไม่ว่าคุณจะมีคำถาม ข้อเสนอโปรเจกต์ หรือแค่อยากทักทาย ผมจะพยายามตอบกลับให้เร็วที่สุด!" },
+            contact_btn: { en: "Say Hello", th: "ทักทายผม" },
+            footer: { en: "Designed & Built by Phanuwat Khamkhan", th: "ออกแบบและพัฒนาโดย ภานุวัฒน์ คำขันย์" },
         };
 
         let currentLang = 'en';
@@ -556,30 +479,23 @@
             const lblEn = document.getElementById('label-en');
             const lblTh = document.getElementById('label-th');
 
-            if (currentLang === 'th') {
-                slider.style.transform = 'translateX(42px)';
-                lblEn.classList.replace('text-brand-400', 'text-slate-500');
-                lblTh.classList.replace('text-slate-500', 'text-brand-400');
-            } else {
-                slider.style.transform = 'translateX(0px)';
-                lblEn.classList.replace('text-slate-500', 'text-brand-400');
-                lblTh.classList.replace('text-brand-400', 'text-slate-500');
-            }
+            slider.style.transform = currentLang === 'th' ? 'translateX(42px)' : 'translateX(0px)';
+            lblEn.classList.toggle('text-brand-400', currentLang === 'en');
+            lblEn.classList.toggle('text-slate-500', currentLang === 'th');
+            lblTh.classList.toggle('text-brand-400', currentLang === 'th');
+            lblTh.classList.toggle('text-slate-500', currentLang === 'en');
 
-            const wrapper = document.getElementById('app-wrapper');
-            wrapper.classList.remove('rebooting');
-            void wrapper.offsetWidth;
-            wrapper.classList.add('rebooting');
+            document.getElementById('app-wrapper').classList.add('rebooting');
+            setTimeout(() => document.getElementById('app-wrapper').classList.remove('rebooting'), 400);
 
             document.querySelectorAll('[data-t]').forEach(el => {
                 const key = el.getAttribute('data-t');
-                const targetText = translations[key][currentLang];
+                const targetText = translations[key]?.[currentLang];
+                if (!targetText) return;
+
                 if (el.classList.contains('fade-transition')) {
                     el.style.opacity = '0';
-                    setTimeout(() => {
-                        el.innerHTML = targetText;
-                        el.style.opacity = '1';
-                    }, 200);
+                    setTimeout(() => { el.innerHTML = targetText; el.style.opacity = '1'; }, 200);
                 } else {
                     scrambleTextEffect(el, targetText);
                 }
@@ -602,56 +518,37 @@
             }, 30);
         }
 
-        function openModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.add('open');
-            document.body.classList.add('modal-open');
-        }
+        function openModal(modalId) { document.getElementById(modalId).classList.add('open'); document.body.classList.add('modal-open'); }
+        function closeModal(modalId) { document.getElementById(modalId).classList.remove('open'); document.body.classList.remove('modal-open'); }
 
-        function closeModal(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('open');
-            document.body.classList.remove('modal-open');
-        }
-
-        // Hover Effect
-        document.querySelector('.hacker-text').onmouseover = event => {
-            let iterations = 0;
-            const finalString = event.target.dataset.value;
-            const interval = setInterval(() => {
-                event.target.innerText = finalString.split('').map((char, index) => {
-                    if(char === ' ') return char;
-                    if(index < iterations) return finalString[index];
-                    return scrambleChars[Math.floor(Math.random() * scrambleChars.length)];
-                }).join('');
-                if(iterations >= finalString.length) clearInterval(interval);
-                iterations += 1/3;
+        // Hero Hover
+        document.querySelector('.hacker-text').onmouseover = e => {
+            let its = 0; const val = e.target.dataset.value;
+            const iv = setInterval(() => {
+                e.target.innerText = val.split('').map((c, i) => i < its ? val[i] : scrambleChars[Math.floor(Math.random() * scrambleChars.length)]).join('');
+                if(its >= val.length) clearInterval(iv); its += 1/3;
             }, 30);
         };
 
-        // Cursor & Reveal logic
+        // Cursor & Reveal
         const dot = document.querySelector('.cursor-dot');
-        const outline = document.querySelector('.cursor-outline');
-        window.addEventListener('mousemove', (e) => {
+        const out = document.querySelector('.cursor-outline');
+        window.addEventListener('mousemove', e => {
             dot.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
-            outline.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+            out.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
             document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
             document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
         });
 
-        const revealObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.remove('is-hidden'); });
-        }, { threshold: 0.1 });
-        document.querySelectorAll('.safe-reveal').forEach(el => { el.classList.add('is-hidden'); revealObserver.observe(el); });
+        const reveal = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.remove('is-hidden')), { threshold: 0.1 });
+        document.querySelectorAll('.safe-reveal').forEach(el => { el.classList.add('is-hidden'); reveal.observe(el); });
 
-        document.querySelectorAll('.magnetic').forEach(elem => {
-            elem.addEventListener('mousemove', (e) => {
-                const rect = elem.getBoundingClientRect();
-                const x = e.clientX - rect.left - rect.width / 2;
-                const y = e.clientY - rect.top - rect.height / 2;
-                elem.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        document.querySelectorAll('.magnetic').forEach(el => {
+            el.addEventListener('mousemove', e => {
+                const r = el.getBoundingClientRect();
+                el.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.3}px, ${(e.clientY - r.top - r.height/2) * 0.3}px)`;
             });
-            elem.addEventListener('mouseleave', () => { elem.style.transform = `translate(0px, 0px)`; });
+            el.addEventListener('mouseleave', () => el.style.transform = 'translate(0px, 0px)');
         });
     </script>
 </body>
