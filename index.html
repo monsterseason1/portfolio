@@ -274,7 +274,8 @@
                         </p>
                     </div>
                     
-                    <div class="grid grid-cols-2 gap-x-4 gap-y-6">
+                    <!-- Skills Grid: Updated to 3 columns on desktop -->
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
                         <div>
                             <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-browsers text-brand-400 mr-2"></i>Frontend</h3>
                             <ul class="space-y-2 font-mono text-sm text-slate-400">
@@ -288,7 +289,16 @@
                             <ul class="space-y-2 font-mono text-sm text-slate-400">
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Firebase</li>
                                 <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Chrome Ext</li>
-                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Google Apps Script</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Apps Script</li>
+                            </ul>
+                        </div>
+                        <!-- New Skills Column: Data & Business Tools -->
+                        <div class="col-span-2 lg:col-span-1">
+                            <h3 class="text-white font-medium mb-3 border-b border-slate-800 pb-2"><i class="ph ph-chart-bar text-brand-400 mr-2"></i>Data & Tools</h3>
+                            <ul class="space-y-2 font-mono text-sm text-slate-400">
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Excel/Sheets</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> SUMIFS Logic</li>
+                                <li class="flex items-center gap-2 magnetic cursor-default"><i class="ph-fill ph-caret-right text-brand-400 text-xs"></i> Dashboarding</li>
                             </ul>
                         </div>
                     </div>
@@ -332,22 +342,22 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 perspective-1000">
                     
-                    <!-- New Project: IAME ASIA Finance Dashboard -->
-                    <div class="glow-card rounded-xl h-[340px] group border border-brand-400/20">
+                    <!-- Feature Success: IAME ASIA Finance Dashboard -->
+                    <div class="glow-card rounded-xl h-[340px] group border border-brand-400/30 shadow-[0_0_30px_rgba(56,189,248,0.1)]">
                         <div class="card-content p-6 md:p-8 flex flex-col items-start h-full bg-brand-500/5">
                             <div class="w-full flex justify-between items-center mb-4">
                                 <i class="ph ph-chart-line-up text-5xl text-brand-400"></i>
-                                <span class="bg-green-500/20 text-green-400 text-[10px] font-mono px-2 py-1 rounded border border-green-500/30">LATEST SUCCESS</span>
+                                <span class="bg-brand-500/20 text-brand-400 text-[10px] font-mono px-2 py-1 rounded border border-brand-400/30">BUSINESS SOLUTION</span>
                             </div>
-                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-2 group-hover:text-brand-400 transition-colors" data-t="work4_title">IAME ASIA Finance Dashboard</h3>
+                            <h3 class="text-xl md:text-2xl font-bold text-slate-200 mb-2 group-hover:text-brand-400 transition-colors" data-t="work4_title">Automated Finance Dashboard</h3>
                             <p class="text-slate-400 text-sm mb-4 flex-grow fade-transition" data-t="work4_desc">
-                                Optimized financial tracking for international racing events. Automated complex multi-payment verification (Cash, Transfer, Foreign Currency) with advanced logic.
+                                Engineered a high-precision financial tracking system for IAME ASIA. Automated multi-currency verification and payment status tracking using advanced Excel architecture.
                             </p>
                             <div class="w-full mt-auto pt-4 border-t border-white/10">
                                 <ul class="flex flex-wrap gap-2 font-mono text-[10px] text-slate-500">
-                                    <li>Data Logic</li>
-                                    <li>SUMIFS Architecture</li>
-                                    <li>Finance UI</li>
+                                    <li>Complex SUMIFS</li>
+                                    <li>Data Visualization</li>
+                                    <li>Business Automation</li>
                                 </ul>
                             </div>
                         </div>
@@ -526,8 +536,8 @@
             work1_desc: { en: "A digital logging tool designed specifically for rubber plantation workers to track daily production accurately.", th: "แอปพลิเคชันบันทึกข้อมูลดิจิทัลที่ออกแบบมาเฉพาะสำหรับชาวสวนยางพารา เพื่อติดตามผลผลิตรายวันอย่างแม่นยำ" },
             work2_desc: { en: "A visual rhythm tool tailored for cinematic video editing workflows. Sync visuals with audio beats easily.", th: "เครื่องมือสร้างจังหวะภาพที่ปรับแต่งมาสำหรับเวิร์กโฟลว์การตัดต่อวิดีโอแบบภาพยนตร์ ซิงค์ภาพกับจังหวะเสียงได้อย่างง่ายดาย" },
             work3_desc: { en: "A serverless health tracking mini-app integrated with LINE LIFF. Built with Decoupled Architecture to overcome GAS iframe limitations.", th: "แอปพลิเคชันติดตามสุขภาพแบบ Serverless ผสานการทำงานกับ LINE LIFF สร้างด้วยสถาปัตยกรรมแบบแยกส่วนเพื่อก้าวข้ามข้อจำกัด iframe ของ Google" },
-            work4_title: { en: "IAME ASIA Finance Dashboard", th: "ระบบสรุปยอดเงิน IAME ASIA" },
-            work4_desc: { en: "Optimized financial tracking for international racing events. Automated complex multi-payment verification (Cash, Transfer, Foreign Currency) with advanced logic.", th: "ระบบจัดการการเงินสำหรับการแข่งขันรถระดับนานาชาติ จัดการตรรกะการตรวจสอบยอดเงินที่ซับซ้อน (เงินสด, โอน, เงินต่างประเทศ) ให้สรุปผลได้แบบเรียลไทม์" },
+            work4_title: { en: "Automated Finance Dashboard", th: "ระบบสรุปยอดเงินอัตโนมัติ" },
+            work4_desc: { en: "Engineered a high-precision financial tracking system for IAME ASIA. Automated multi-currency verification and payment status tracking using advanced Excel architecture.", th: "พัฒนาระบบติดตามการเงินความแม่นยำสูงสำหรับการแข่งขัน IAME ASIA จัดการการตรวจสอบยอดเงินหลายประเภทและสถานะการชำระเงินอัตโนมัติด้วยโครงสร้างสูตรขั้นสูง" },
             btn_view_details: { en: "View Details <i class='ph ph-arrow-right'></i>", th: "ดูรายละเอียด <i class='ph ph-arrow-right'></i>" },
 
             sec_contact_sub: { en: "04. What's Next?", th: "04. ก้าวต่อไป?" },
@@ -619,7 +629,7 @@
             }, 30);
         };
 
-        // Cursor & Reveal logic (Simplified for length)
+        // Cursor & Reveal logic
         const dot = document.querySelector('.cursor-dot');
         const outline = document.querySelector('.cursor-outline');
         window.addEventListener('mousemove', (e) => {
